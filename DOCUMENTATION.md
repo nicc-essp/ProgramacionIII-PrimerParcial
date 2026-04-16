@@ -1,0 +1,87 @@
+# Desarrollo y documentación técnica
+
+## 1. Descripción del Proyecto
+Un editor de texto ligero y sin distracciones, creado con HTML5, CSS3 y Javascript ES2026. El objetivo es ofrecer una experiencia de escritura comoda y silenciosa a escritores que valoran las interfaces limpias y el rendimiento.
+
+## 2. Tecnologías
+
+Frontend: HTML5
+
+Estilo: CSS3 Vainilla (estética minimalista)
+
+Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
+
+## 3. Funcionalidades & Requisitos
+
+| Funcionalidad | Prioridad   | Estado |
+|---------------|-------------|--------|
+| Diseño con Flexbox | Obligatorio | Pendiente 🔴 |
+| Barra de herramientas basica(Fuente, Tamaño, Negrita, Cursiva, Alineación) | Obligatorio | Pendiente 🔴 |
+| Area de texto | Obligatorio | Pendiente 🔴 |
+| Gestión de archivos (.txt / .md: Crear, Abrir, Guardar) | Alta | Pendiente 🔴 |
+| Diseño Responsivo | Alta | Pendiente 🔴 |
+| Autoguardado local | Alta | Pendiente 🔴 |
+| Modo Oscuro | Media | Pendiente 🔴 |
+| Modo Cuidado Visual | Media | Pendiente 🔴 |
+| Contador de palabras  | Baja | Pendiente 🔴 |
+
+## 4. Arquitectura y estructura de carpetas
+    ProgramacionIII-PrimerParcial/  
+    │── index.html                 # Estructura de la app
+    ├── asssets/                   # Recursos utilizables (imagenes,videos,favicons,etc)
+    │   │── img/  
+    │   └── favicon/  
+    ├── css/                        # Diseño visual 
+    │   ├── index.css  
+    │   └── components/             # Elementos de la interfaz de usuario (botones, ventanas modales, EditorCanvas)
+    │── js/
+    │   └── script.js               # Interaccion con el DOM
+    │── pages/  
+    │── DOCUMENTATION.md            # Documentacion Tecnica para el equipo de desarrollo (mapa de ruta, metodologia,etc)
+    └── README.md                   # Documentacion general para usuarios finales de la app
+
+## 5. Flujo de trabajo y reglas de contribución
+### Para mantener el repositorio organizado entre los seis, seguimos estas reglas:
+
+### Estrategia de ramificación: 
+#### * main: Código en su version estable y completa (V1.0).
+
+#### * release/x.0 : Preparacion de una nueva version. Se crea cuando develop tiene suficientes funcionalidades para una entrega y sirve para corregir errores         menores durante la revision, ajustar numeros de version, actualizar documentacion y **IMPORTANTE: no agregar funcionalidades nuevas**.
+
+#### * develop: rama de desarrollo
+
+#### * feature/nombre-de-la-funcionalidad: Para crear nuevas funcionalidades
+
+#### * hotfix: Correcion urgente de un error que se encuentra en main.
+
+#### * commits: Utilizar titulos descriptivos. Ejemplo: feature: implemente la logica del contador de palabras.
+
+#### * Revisiones de Pull Requests (PR): Al menos un compañero de equipo debe revisar una solicitud de incorporacion de cambios antes de fusionarla (merge) con develop.
+
+
+## 6. Hoja de ruta
+
+### Para organizar las tareas, el proyecto se divide en 4 fases. Esto permite trabajar en paralelo sin interferencias:
+
+### Fase 1: Fundamentos y Layout (El Esqueleto)
+#### T1: Inicializar repositorio en GitHub con Git Flow (ramas Main/Develop).
+#### T2: Crear index.html con estructura semántica principal.
+#### T3: Implementar layout base con Flexbox (Header, Canvas, Footer).
+#### T4: Diseñar el área principal de escritura con CSS puro.
+
+### Fase 2: Lógica y Formato de Texto (El Músculo)
+#### T5: Implementar listeners en JavaScript para selección de texto.
+#### T6: Lógica para Negrita, Cursiva y Subrayado (Obligatoria).
+#### T7: Lógica de alineación de texto (Izquierda, Centro, Derecha).
+#### T8: Contador de palabras en tiempo real en el footer.
+
+### Fase 3: Sistema de Archivos y Almacenamiento (El Cerebro)
+#### T9: Implementar “Guardar como .txt / .md” usando Blob API o File System Access API.
+#### T10: Lógica para “Abrir/Subir” archivos existentes en el editor.
+#### T11: Implementar Local Storage para la función de Auto-guardado (evita pérdida de datos al refrescar).
+
+### Fase 4: UI/UX y Pulido Final (La Piel)
+#### T12: Diseño responsivo: asegurar compatibilidad con tablets y móviles.
+#### T13: Implementar Modo Oscuro y Modo Cuidado Visual (Variables/Clases CSS).
+#### T14: Pulido final de UI: transiciones, efectos hover y scrollbars minimalistas.
+#### T15: Actualización final de documentación (README & DOCUMENTATION).
