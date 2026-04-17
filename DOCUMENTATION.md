@@ -15,9 +15,9 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 
 | Funcionalidad | Prioridad   | Estado |
 |---------------|-------------|--------|
-| Diseño con Flexbox | Obligatorio | Pendiente 🔴 |
-| Barra de herramientas basica(Fuente, Tamaño, Negrita, Cursiva, Alineación) | Obligatorio | Pendiente 🔴 |
-| Area de texto | Obligatorio | Pendiente 🔴 |
+| Diseño con Flexbox | Obligatorio | En Desarrollo 🟡 |
+| Barra de herramientas basica(Fuente, Tamaño, Negrita, Cursiva, Alineación) | Obligatorio | En Desarrollo 🟡 |
+| Area de texto | Obligatorio | En Desarrollo 🟡 |
 | Gestión de archivos (.txt / .md: Crear, Abrir, Guardar) | Alta | Pendiente 🔴 |
 | Diseño Responsivo | Alta | Pendiente 🔴 |
 | Autoguardado local | Alta | Pendiente 🔴 |
