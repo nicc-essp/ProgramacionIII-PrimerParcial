@@ -105,3 +105,11 @@
    }, 900);
  });
  // FIN FUNCION RESET POSICION
+
+ // FUNCION DARK MODE
+ const darkModeBtn = document.getElementById("icon-mode");
+ darkModeBtn.addEventListener("click", toggleDarkMode);
+  function toggleDarkMode() {
+    var element = document.body;
+      element.classList.toggle("dark-mode");
+}

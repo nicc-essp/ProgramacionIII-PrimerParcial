@@ -21,7 +21,7 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 | Gestión de archivos (.txt / .md: Crear, Abrir, Guardar) | Alta | Pendiente 🔴 |
 | Diseño Responsivo | Alta | Pendiente 🔴 |
 | Autoguardado local | Alta | Pendiente 🔴 |
-| Modo Oscuro | Media | Pendiente 🔴 |
+| Modo Oscuro | Media | En Desarrollo 🟡 |
 | Modo Cuidado Visual | Media | Pendiente 🔴 |
 | Contador de palabras  | Baja | Pendiente 🔴 |
 
@@ -85,3 +85,11 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 #### T13: Implementar Modo Oscuro y Modo Cuidado Visual (Variables/Clases CSS).
 #### T14: Pulido final de UI: transiciones, efectos hover y scrollbars minimalistas.
 #### T15: Actualización final de documentación (README & DOCUMENTATION).
+
+
+
+#### EN DESARROLLO  
+## Diseño basico:  
+
+## Dark Mode: Se esta implementando la funcionalidad de alternar el fondo de la pagina web por medio del icono lunar (Id: icon-mode) y un Event Listener. Se utilizo informacion del siguinte link (https://www.w3schools.com/js/js_events.asp#gsc.tab=0)
+   
