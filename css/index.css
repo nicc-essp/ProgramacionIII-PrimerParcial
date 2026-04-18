@@ -1,0 +1,292 @@
+body {
+    margin: 0px;
+    background-color: #F7F8FB;
+}
+
+h1 {
+    margin: 0;
+  }
+
+  * {
+    font-family: "Lato", sans-serif;
+  }
+
+/* HEADER */
+.header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    justify-content: space-between;
+    position: relative; 
+    height: 80px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  
+  #header-izquierdo,
+  #header-centro,
+  #header-derecho {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Izquierda */
+  #header-izquierdo {
+    position: relative;
+    justify-self: start;
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Iconos */
+  #header-izquierdo i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+  }
+
+  #icon-menu {
+    opacity: 1;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  #icon-menu-hover {
+    opacity: 0;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Hover */
+  #header-izquierdo:hover #icon-menu {
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  #header-izquierdo:hover #icon-menu-hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  
+  /* Centro */
+  #header-centro {
+    justify-self: center;
+    display: flex;
+    align-items: center;
+  }
+
+  #logo-header {
+    height: 40px;
+  }
+
+  /* Derecha */
+  #header-derecho {
+    position: relative; 
+    justify-self: end;
+    width: 80px;    
+    height: 24px;
+  }
+  
+  /* Iconos */
+  #header-derecho i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px; 
+    height: 30px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* Posiciones */
+  #icon-glass,
+  #icon-glass-hover {
+    left: 0;
+  }
+  
+  #icon-mode,
+  #icon-mode-hover {
+    left: 60px;
+  }
+  
+  /* Ocultos */
+  #icon-glass,
+  #icon-mode {
+    opacity: 1;
+  }
+  
+  #icon-glass-hover,
+  #icon-mode-hover {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  /* Hover */
+  #icon-glass:hover {
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  #icon-glass:hover + #icon-glass-hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  
+  #icon-mode:hover {
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  #icon-mode:hover + #icon-mode-hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  /* BARRA DE TAREAS */
+.barra-funciones {
+   display: flex;
+   align-items: center;
+   position: relative;
+   padding-top: 50px;
+}
+
+  #funciones {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f3f4f6;
+    width: 500px;
+    height: 60px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    user-select: none;
+    touch-action: none;
+    z-index: 1;
+
+    /* Sombras */
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 4px 8px rgba(0, 0, 0, 0.06),
+      0 10px 25px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Animacion Reset */
+  #funciones.animate-reset {
+    transition: left 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                top 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+ 
+  /* Icono Mover */
+  #icon-move-barra {
+    opacity: 0;
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 15px;
+    background: white;
+    border-radius: 50%;
+    padding: 5px;
+    transition: all 0.8s ease;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Hover */
+  #funciones:hover #icon-move-barra {
+    opacity: 0.7;
+  }
+
+  #funciones #icon-move-barra:hover {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.1);
+    cursor: grab;
+    animation-play-state: paused;
+  }
+  
+  #funciones #icon-move-barra:active {
+    opacity: 0.5;
+    cursor: grabbing;
+    transform: translateX(-50%) scale(0.95);
+    animation-play-state: paused;
+  }
+
+  /* Animacion */
+  @keyframes float {
+    0% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, -3px); }
+    100% { transform: translate(-50%, 0); }
+  }
+
+  /* HOJAS */
+  .espacio-hojas {
+    display: grid;
+    justify-self: start;
+    padding-top: 80px;
+  }
+
+  #hoja {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    width: 80%;
+    height: 85%;
+    border-radius: 1%;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: -1;
+
+    /* Sombras */
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 4px 8px rgba(0, 0, 0, 0.06),
+      0 10px 25px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Reset Posicion */
+  #icon-reset {
+  opacity: 0;
+  position: fixed;
+
+  top: 80px;
+  left: 50%;
+
+  transform: translate(-50%, -120%) scale(1);
+
+  font-size: 23px;
+  background: white;
+  border-radius: 50%;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 10px 25px rgba(0, 0, 0, 0.08);
+
+  transition: transform 0.8s ease, opacity 0.8s ease;
+
+  z-index: 9999;
+  }
+
+  #icon-reset.show {
+  transform: translate(-50%, 0) scale(1);
+  opacity: 1;
+  }
+
+  #icon-reset:hover {
+  cursor: pointer;
+  }
+
