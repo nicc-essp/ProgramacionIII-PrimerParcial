@@ -1,0 +1,43 @@
+/* Editor Canvas Styles */
+
+#editor {
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    box-sizing: border-box;
+    outline: none; /* Quita el borde azul de enfoque */
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--color-cuaternario);
+    overflow-y: auto; /* Scroll vertical */
+    white-space: pre-wrap; /* Mantiene espacios y saltos de línea */
+    word-wrap: break-word;
+    border-radius: inherit;
+    transition: all 0.3s ease;
+}
+
+/* Placeholder para contenteditable */
+#editor:empty::before {
+    content: attr(data-placeholder);
+    color: #a0a0a0;
+    pointer-events: none; /* Para que el clic pase a través del texto */
+    display: block; /* Para que ocupe espacio y se vea bien */
+}
+
+/* Personalización del scrollbar para mantener el minimalismo */
+#editor::-webkit-scrollbar {
+    width: 8px;
+}
+
+#editor::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#editor::-webkit-scrollbar-thumb {
+    background: var(--color-terciario);
+    border-radius: 10px;
+}
+
+#editor::-webkit-scrollbar-thumb:hover {
+    background: var(--color-terciario);
+}
