@@ -17,12 +17,12 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 |---------------|-------------|--------|
 | Diseño con Flexbox | Obligatorio | En Desarrollo 🟡 |
 | Barra de herramientas basica(Fuente, Tamaño, Negrita, Cursiva, Alineación) | Obligatorio | En Desarrollo 🟡 |
-| Area de texto | Obligatorio | En Desarrollo 🟡 |
+| Area de texto | Obligatorio | Listo 🟢 |
 | Gestión de archivos (.txt / .md: Crear, Abrir, Guardar) | Alta | Pendiente 🔴 |
 | Diseño Responsivo | Alta | Pendiente 🔴 |
 | Autoguardado local | Alta | Pendiente 🔴 |
 | Modo Oscuro | Media | En Desarrollo 🟡 |
-| Modo Cuidado Visual | Media | Pendiente 🔴 |
+| Modo Cuidado Visual | Media | En Desarrollo 🟡 |
 | Contador de palabras  | Baja | Pendiente 🔴 |
 
 ## 4. Arquitectura y estructura de carpetas
@@ -63,13 +63,13 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 
 ### Para organizar las tareas, el proyecto se divide en 4 fases. Esto permite trabajar en paralelo sin interferencias:
 
-### Fase 1: Fundamentos y Layout (El Esqueleto)
-#### T1: Inicializar repositorio en GitHub con Git Flow (ramas Main/Develop).
-#### T2: Crear index.html con estructura semántica principal.
-#### T3: Implementar layout base con Flexbox (Header, Canvas, Footer).
-#### T4: Diseñar el área principal de escritura con CSS puro.
+### Fase 1: Fundamentos y Layout (El Esqueleto) ✅
+#### T1: Inicializar repositorio en GitHub con Git Flow (ramas Main/Develop). ✅
+#### T2: Crear index.html con estructura semántica principal. ✅
+#### T3: Implementar layout base con Flexbox (Header, Canvas, Footer). ✅
+#### T4: Diseñar el área principal de escritura con CSS puro. ✅
 
-### Fase 2: Lógica y Formato de Texto (El Músculo)
+### Fase 2: Lógica y Formato de Texto (El Músculo) - En Progreso 🟡
 #### T5: Implementar listeners en JavaScript para selección de texto.
 #### T6: Lógica para Negrita, Cursiva y Subrayado (Obligatoria).
 #### T7: Lógica de alineación de texto (Izquierda, Centro, Derecha).
