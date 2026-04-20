@@ -1,5 +1,6 @@
 @import "components/editor.css";
 
+/* COLORES */
 :root{
   --color-primario: #ffffff;
   --color-secundario: #424552;
@@ -7,8 +8,9 @@
   --color-cuaternario: #000000;
   --color-quinario: #ffd43a;
 }
+/* FIN COLORES */
 
-
+/* GENERAL */
 body {
     margin: 0px;
     background-color: #F7F8FB;
@@ -21,6 +23,7 @@ h1 {
   * {
     font-family: "Lato", sans-serif;
   }
+/* FIN GENERAL */
 
 /* HEADER */
 .header {
@@ -88,6 +91,7 @@ h1 {
     opacity: 1;
     cursor: pointer;
   }
+  /* Fin Izquierda */
   
   /* Centro */
   #header-centro {
@@ -99,6 +103,7 @@ h1 {
   #logo-header {
     height: 40px;
   }
+  /* Fin Centro */
 
   /* Derecha */
   #header-derecho {
@@ -121,6 +126,7 @@ h1 {
     justify-content: center;
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
+  /* Fin Iconos */
   
   /* Posiciones */
   #icon-glass,
@@ -132,12 +138,14 @@ h1 {
   #icon-mode-hover {
     left: 60px;
   }
+  /* Fin Posiciones */
   
   /* Ocultos */
   #icon-glass,
   #icon-mode {
     opacity: 1;
   }
+  /* Fin Ocultos */
   
   #icon-glass-hover,
   #icon-mode-hover {
@@ -165,6 +173,9 @@ h1 {
     opacity: 1;
     cursor: pointer;
   }
+  /* Fin Hover */
+  /* Fin Derecha */
+  /* FIN HEADER */
 
   /* BARRA DE TAREAS */
 .barra-funciones {
@@ -175,11 +186,12 @@ h1 {
 }
 
   #funciones {
+    display: flex;
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
     background-color: #f3f4f6;
-    width: 500px;
+    width: 400px;
     height: 60px;
     border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: 10px;
@@ -194,11 +206,132 @@ h1 {
       0 10px 25px rgba(0, 0, 0, 0.08);
   }
 
+  /* Funciones Iconos */
+  #funciones-estilos {
+    display: flex;
+    gap: 25px;
+    padding-left: 25px;
+  }
+  
+  #funciones-estilos i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    transition: all 0.5s ease;
+  }
+
+  /* Bold */
+  #bold-icon:hover {
+    transform: scale(120%);
+    cursor: pointer;
+  }
+
+  /* Italic */
+  #italic-icon:hover {
+    transform: scale(120%);
+    cursor: pointer;
+  }
+
+  /* Underline */
+  #underline-icon {
+    position: relative;
+    padding-right: 25px;
+  }
+
+  #underline-icon:hover {
+    transform: scale(120%);
+    cursor: pointer;
+  }
+
+  /* Activo */
+  #funciones-estilos i.active {
+    color: green;
+    transform: scale(1.20);
+  }
+
+  /* Fin Funciones Iconos */
+
+  /* Funcion Tamaño */
+   #selector-tamaño {
+    display: flex;
+    gap: 18px;
+    padding-left: 25px;
+    align-items: center;
+  }
+  
+  #selector-tamaño i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+  
+  #selector-tamaño i:hover {
+    transform: scale(1.20);
+  }
+  
+  #selector-tamaño i.active {
+    color: green;
+  }
+  
+  #size1 { font-size: 11px; }
+  #size2 { font-size: 15px; }
+  #size3 { font-size: 20px; padding-right: 25px; }
+  /* Fin Funcion Tamaño */
+
+  /* Funcion Color */
+  #color-picker {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+  }
+
+  #selector-color {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  
+    width: 20px;
+    height: 23px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  #color-actual {
+    font-size: 13px;
+    font-weight: bold;
+    color: #424552a6;
+    padding-left: 5px;
+  }
+  /* Fin Funcion Color */
+
+  /* Divisor */
+  #divider {
+    position: relative;
+  }
+
+  #divider::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 30px;
+    background-color: var(--color-secundario);
+  }
+  /* Fin Divisor */
+
   /* Animacion Reset */
   #funciones.animate-reset {
     transition: left 0.8s cubic-bezier(0.22, 1, 0.36, 1),
                 top 0.8s cubic-bezier(0.22, 1, 0.36, 1);
   }
+   /* Fin Animacion Reset */
  
   /* Icono Mover */
   #icon-move-barra {
@@ -214,6 +347,7 @@ h1 {
     transition: all 0.8s ease;
     animation: float 3s ease-in-out infinite;
   }
+  /* Fin Icono Mover */
 
   /* Hover */
   #funciones:hover #icon-move-barra {
@@ -233,6 +367,7 @@ h1 {
     transform: translateX(-50%) scale(0.95);
     animation-play-state: paused;
   }
+  /* Fin Hover */
 
   /* Animacion */
   @keyframes float {
@@ -240,6 +375,130 @@ h1 {
     50% { transform: translate(-50%, -3px); }
     100% { transform: translate(-50%, 0); }
   }
+  /* Fin Animacion */
+
+    /* Reset Posicion */
+    #icon-reset {
+        opacity: 0;
+        position: fixed;
+      
+        top: 80px;
+        left: 50%;
+      
+        transform: translate(-50%, -120%) scale(1);
+      
+        font-size: 23px;
+        background: white;
+        border-radius: 50%;
+        padding: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      
+        box-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.04),
+          0 4px 8px rgba(0, 0, 0, 0.06),
+          0 10px 25px rgba(0, 0, 0, 0.08);
+      
+        transition: transform 0.8s ease, opacity 0.8s ease;
+      
+        z-index: 9999;
+        }
+      
+        #icon-reset.show {
+        transform: translate(-50%, 0) scale(1);
+        opacity: 1;
+        }
+      
+        #icon-reset:hover {
+        cursor: pointer;
+        }
+      /* Fin Reset Posicion */
+      
+     /* Barra Vertical */
+#funciones.vertical {
+  width: 52px;
+  height: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 0;
+  gap: 0;
+}
+
+#funciones.vertical #funciones-estilos,
+#funciones.vertical #selector-tamaño,
+#funciones.vertical #color-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 14px 0;
+  width: 100%;
+}
+
+/* Divisor horizontal entre grupos */
+#funciones.vertical #divider {
+  width: 60%;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.08);
+  margin: 0 auto;
+}
+
+#funciones.vertical #divider::after {
+  display: none;
+}
+
+/* Resetear paddings individuales */
+#funciones.vertical #underline-icon,
+#funciones.vertical #size3 {
+  padding: 0;
+}
+
+/* Íconos estilos - tamaño fijo */
+#funciones.vertical #funciones-estilos i {
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  transition: all 0.2s ease, transform 0.2s ease;
+}
+
+/* Íconos tamaño */
+#funciones.vertical #selector-tamaño i {
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  transition: all 0.2s ease, transform 0.2s ease;
+}
+
+#funciones.vertical #funciones-estilos i:hover,
+#funciones.vertical #selector-tamaño i:hover {
+  background: rgba(0, 0, 0, 0.06);
+  transform: scale(1.1);
+}
+
+/* Tamaños individuales */
+#funciones.vertical #size1 { font-size: 11px; }
+#funciones.vertical #size2 { font-size: 15px; }
+#funciones.vertical #size3 { font-size: 20px; }
+
+/* Color picker */
+#funciones.vertical #color-actual {
+  display: none;
+}
+
+#funciones.vertical #selector-color {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+}
+/* Fin Barra Vertical */
+
+/* FIN BARRA DE TAREAS*/
 
   /* HOJAS */
   .espacio-hojas {
@@ -249,6 +508,8 @@ h1 {
   }
 
   #hoja {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -266,38 +527,5 @@ h1 {
       0 10px 25px rgba(0, 0, 0, 0.08);
   }
   
-  /* Reset Posicion */
-  #icon-reset {
-  opacity: 0;
-  position: fixed;
 
-  top: 80px;
-  left: 50%;
-
-  transform: translate(-50%, -120%) scale(1);
-
-  font-size: 23px;
-  background: white;
-  border-radius: 50%;
-  padding: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 4px 8px rgba(0, 0, 0, 0.06),
-    0 10px 25px rgba(0, 0, 0, 0.08);
-
-  transition: transform 0.8s ease, opacity 0.8s ease;
-
-  z-index: 9999;
-  }
-
-  #icon-reset.show {
-  transform: translate(-50%, 0) scale(1);
-  opacity: 1;
-  }
-
-  #icon-reset:hover {
-  cursor: pointer;
-  }
 
