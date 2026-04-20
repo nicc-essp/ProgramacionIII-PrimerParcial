@@ -5,8 +5,31 @@ body {
 
 /*En esta parte hay que cambiar los colores del fondo, y hacer un ajuste en el logo*/
 .dark-mode {
-    background-color: #1e1e1e;
-    color: #f3f4f6;
+    background-color: #080917;
+}
+
+.dark-mode i {
+  color: #f3f4f6;
+}
+
+.dark-mode #funciones i{
+  color: #080917;
+}
+
+.dark-mode #icon-reset {
+  color: #080917;
+}
+
+.dark-mode #funciones {
+  background-color: #111225;
+}
+
+.dark-mode img {
+  content: url("/assets/img/logo-completo-blanco.png");
+}
+
+.dark-mode #hoja {
+  background-color: #121527;
 }
 
 h1 {
@@ -236,6 +259,43 @@ h1 {
     100% { transform: translate(-50%, 0); }
   }
 
+   /* Reset Posicion */
+   #icon-reset {
+    opacity: 0;
+    position: fixed;
+  
+    top: 80px;
+    left: 50%;
+  
+    transform: translate(-50%, -120%) scale(1);
+  
+    font-size: 23px;
+    background: white;
+    border-radius: 50%;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 4px 8px rgba(0, 0, 0, 0.06),
+      0 10px 25px rgba(0, 0, 0, 0.08);
+  
+    transition: transform 0.8s ease, opacity 0.8s ease;
+  
+    z-index: 9999;
+    }
+  
+    #icon-reset.show {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 1;
+    }
+  
+    #icon-reset:hover {
+    cursor: pointer;
+    }
+    /* Fin Reset Posicion */
+  /* FIN BARRA DE TAREAS */
+
   /* HOJAS */
   .espacio-hojas {
     display: grid;
@@ -260,39 +320,4 @@ h1 {
       0 4px 8px rgba(0, 0, 0, 0.06),
       0 10px 25px rgba(0, 0, 0, 0.08);
   }
-  
-  /* Reset Posicion */
-  #icon-reset {
-  opacity: 0;
-  position: fixed;
-
-  top: 80px;
-  left: 50%;
-
-  transform: translate(-50%, -120%) scale(1);
-
-  font-size: 23px;
-  background: white;
-  border-radius: 50%;
-  padding: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 4px 8px rgba(0, 0, 0, 0.06),
-    0 10px 25px rgba(0, 0, 0, 0.08);
-
-  transition: transform 0.8s ease, opacity 0.8s ease;
-
-  z-index: 9999;
-  }
-
-  #icon-reset.show {
-  transform: translate(-50%, 0) scale(1);
-  opacity: 1;
-  }
-
-  #icon-reset:hover {
-  cursor: pointer;
-  }
-
+  /* HOJAS */
