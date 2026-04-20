@@ -91,5 +91,9 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 #### EN DESARROLLO  
 ## Diseño basico:  
 
-## Dark Mode: Se esta implementando la funcionalidad de alternar el fondo de la pagina web por medio del icono lunar (Id: icon-mode) y un Event Listener. Se utilizo informacion del siguinte link (https://www.w3schools.com/js/js_events.asp#gsc.tab=0)
+## Dark Mode: Se esta implementando la funcionalidad de alternar el fondo de la pagina web por medio del icono lunar (Id: icon-mode) y un Event Listener. Se utilizo informacion del siguinte link (https://www.w3schools.com/js/js_events.asp#gsc.tab=0).                         Tambien se agrego la funcionalidad para alternar entre luz nocturna y diurna, lo que mejora la visibilidad en horarios nocturnos para descansar la vista. Esto se realizo mediante codigo en html y javascript 
+
+### FINALIZADO
+## -- DarkMode -- : Se concluyeron las funcionalidades para alternar entre modo oscuro y modo claro, ademas se agrego la funcion para proteger la vista con el modo nocturno
+
    
