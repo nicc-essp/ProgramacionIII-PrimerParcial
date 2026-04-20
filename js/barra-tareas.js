@@ -244,9 +244,16 @@ picker.addEventListener("input", () => {
   texto.textContent = picker.value;
   texto.textContent = texto.textContent.toUpperCase();
 
-  if (esColorClaro(picker.value)) {
-    texto.style.color = "#000000"
+  if (document.body.classList.contains("dark-mode")) {
+    if (esColorOscuro(picker.value)) {
+      texto.style.color = "#ffffff"
+    }
+  } else {
+    if (esColorClaro(picker.value)) {
+      texto.style.color = "#000000"
+    }
   }
+
 });
 
 //Comprobacion Color Claro
@@ -261,6 +268,16 @@ function esColorClaro(hex) {
   return luminancia > 186; // Umbral
 }
 // Fin Comprobacion Color Claro
+
+//Comprobacion Color Oscuro
+function esColorOscuro(hex) {
+  const r = parseInt(hex.substr(1, 2), 16);
+  const g = parseInt(hex.substr(3, 2), 16);
+  const b = parseInt(hex.substr(5, 2), 16);
+
+  return r < 100 && g < 100 && b < 100;
+}
+//Fin Comprobacion Color Oscuro
 // FIN FUNCION COLOR TEXTOS
 
  
