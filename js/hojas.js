@@ -181,20 +181,21 @@ document.querySelector(".espacio-hojas").addEventListener("input", (e) => {
   if (!editor) return;
 
   const hojaActual = editor.closest(".hoja");
-  const caracteres = contarCaracteres(editor);
 
   hojaActual.querySelector(".contador-palabras").textContent = contarPalabras(editor);
-  hojaActual.querySelector(".contador-caracteres").textContent = caracteres;
+  hojaActual.querySelector(".contador-caracteres").textContent = contarCaracteres(editor);
 
   const todasLasHojas = document.querySelectorAll(".hoja");
   const esUltimaHoja = hojaActual === todasLasHojas[todasLasHojas.length - 1];
 
-  // Si desborda visualmente y es la última hoja, creá una nueva
   if (desbordaHoja(editor) && esUltimaHoja) {
     agregarHoja();
   }
 
-  if (caracteres == 0 && esUltimaHoja) {
+  // Usá innerText directamente para comparar, no contarCaracteres()
+  const estaVacia = editor.innerText.replace(/\n$/, "").trim().length === 0;
+
+  if (estaVacia && esUltimaHoja) {
     eliminarHoja(hojaActual);
   }
 });
