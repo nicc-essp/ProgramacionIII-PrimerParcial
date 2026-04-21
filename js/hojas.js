@@ -114,7 +114,6 @@ function contarPalabras(texto) {
   } else {
     return contenido.split(/\s+/).length  + " " + "Palabra";
   }
-
   
 }
 // FIN CONTADOR PALABRAS
