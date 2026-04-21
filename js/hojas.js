@@ -10,11 +10,11 @@ editorTitulo.addEventListener("input", () => {
 });
 // FIN TITULO
 
-// Desborda Hoja
+// Detecta si el editor visualmente desborda la hoja
 function desbordaHoja(editor) {
   return editor.scrollHeight > editor.clientHeight;
 }
-// Fin Desborda Hoja
+// Fin desbordaHoja
 
 // PARRAFO
 const editorParrafo = document.querySelector(".editor-parrafo");
@@ -162,9 +162,9 @@ function eliminarHoja(hojaAEliminar) {
   const hojasSiguiente = hojaAEliminar.nextElementSibling;
 
   if (hojaAnterior && hojaAnterior.classList.contains("hoja")) {
-    moverCursorAlFinal(hojaAnterior.querySelector(".editor-parrafo"));
+    hojaAnterior.querySelector(".editor-parrafo").focus();
   } else if (hojasSiguiente && hojasSiguiente.classList.contains("hoja")) {
-    moverCursorAlFinal(hojasSiguiente.querySelector(".editor-parrafo"));
+    hojasSiguiente.querySelector(".editor-parrafo").focus();
   }
 
   hojaAEliminar.remove();
@@ -181,35 +181,21 @@ document.querySelector(".espacio-hojas").addEventListener("input", (e) => {
   if (!editor) return;
 
   const hojaActual = editor.closest(".hoja");
+  const caracteres = contarCaracteres(editor);
 
   hojaActual.querySelector(".contador-palabras").textContent = contarPalabras(editor);
-  hojaActual.querySelector(".contador-caracteres").textContent = contarCaracteres(editor);
+  hojaActual.querySelector(".contador-caracteres").textContent = caracteres;
 
   const todasLasHojas = document.querySelectorAll(".hoja");
   const esUltimaHoja = hojaActual === todasLasHojas[todasLasHojas.length - 1];
 
+  // Si desborda visualmente y es la última hoja, creá una nueva
   if (desbordaHoja(editor) && esUltimaHoja) {
     agregarHoja();
   }
 
-  // Usá innerText directamente para comparar, no contarCaracteres()
-  const estaVacia = editor.innerText.replace(/\n$/, "").trim().length === 0;
-
-  if (estaVacia && esUltimaHoja) {
+  if (caracteres == 0 && esUltimaHoja) {
     eliminarHoja(hojaActual);
   }
 });
-
-// Mover Cursor
-function moverCursorAlFinal(editor) {
-  editor.focus();
-  const range = document.createRange();
-  const sel = window.getSelection();
-  range.selectNodeContents(editor);
-  range.collapse(false); // False = Al Final
-  sel.removeAllRanges();
-  sel.addRange(range);
-}
-// Fin Mover Cursor
-
 // FIN CREAR HOJAS
