@@ -62,6 +62,14 @@
   .dark-mode .divider-contador::after {
     background-color: #a4a4a4;
   }
+
+  .dark-mode #txt-mostrar {
+    color: rgba(160, 160, 160, 0.543);
+  }
+
+  .dark-mode #icon-mostrar {
+    color: rgba(160, 160, 160, 0.543);
+  }
   /* FIN MODO OSCURO */
 
 /* ANIMACION CAMBIO DE TEMA */

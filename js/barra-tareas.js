@@ -153,14 +153,12 @@ document.addEventListener("pointerup", () => {
 // FIN FUNCION AGARRE
  
 // FUNCION RESET POSICION
-resetBtn.addEventListener("click", () => {
+function resetPosicion() {
   contenedor.classList.remove("vertical");
   isVertical = false;
   contenedor.style.transform = "none";
 
-  // Esperá a que el DOM aplique el remove("vertical") y el ancho vuelva a 400px
   requestAnimationFrame(() => {
-    // Ahora offsetWidth es el correcto (400px)
     const centroX = (window.innerWidth - contenedor.offsetWidth) / 2;
 
     contenedor.classList.add("animate-reset");
@@ -177,7 +175,9 @@ resetBtn.addEventListener("click", () => {
       contenedor.classList.remove("animate-reset");
     }, 900);
   });
-});
+}
+
+resetBtn.addEventListener("click", resetPosicion);
 // FIN FUNCION RESET POSICION
 
 // FUNCION APLICAR ESTILOS
@@ -281,3 +281,72 @@ function esColorOscuro(hex) {
 // FIN FUNCION COLOR TEXTOS
 
  
+// OCULTAR BARRA
+const zonaOcultar = document.getElementById("zona-ocultar-barra");
+const txtOcultar = document.getElementById("txt-ocultar");
+const espacioHoja = document.querySelector(".espacio-hojas");
+const recuperarTxt = document.getElementById("mostar-barra");
+
+let sobreZona = false;
+
+handle.addEventListener("mousedown", () => {
+  zonaOcultar.classList.add("visible");
+});
+
+document.addEventListener("mouseup", () => {
+  zonaOcultar.classList.remove("visible");
+
+  // Ocultar
+  if (sobreZona) {
+    contenedor.classList.add("oculto");
+    resetBtn.classList.add("oculto");
+    recuperarTxt.classList.add("mostrar");
+    logo.classList.add("recuperar-barra");
+    espacioHoja.style.paddingTop = "0px";
+  }
+});
+
+document.addEventListener("mousemove", () => {
+  const zonaRect = zonaOcultar.getBoundingClientRect();
+  const handleRect = handle.getBoundingClientRect();
+
+  const overlap = !(
+    handleRect.right < zonaRect.left ||
+    handleRect.left > zonaRect.right ||
+    handleRect.bottom < zonaRect.top ||
+    handleRect.top > zonaRect.bottom
+  );
+
+  if (overlap) {
+    sobreZona = true;
+
+    contenedor.classList.add("por-ocultar");
+    zonaOcultar.classList.add("por-ocultar");
+    txtOcultar.textContent = "Solta para ocultar";
+
+  } else {
+    sobreZona = false;
+
+    contenedor.classList.remove("por-ocultar");
+    zonaOcultar.classList.remove("por-ocultar");
+    txtOcultar.textContent = "Arrastra para ocultar";
+  }
+});
+// FIN OCULTAR BARRA
+
+// MOSTRAR BARRA
+const logo = document.getElementById("header-centro");
+
+logo.addEventListener("click", () => {
+
+  if (contenedor.classList.contains("oculto")) {
+    contenedor.classList.remove("oculto");
+    resetBtn.classList.remove("oculto");
+    recuperarTxt.classList.remove("mostrar");
+    espacioHoja.style.paddingTop = "80px";
+
+    resetPosicion()
+  }
+
+});
+// FIN MOSTRAR BARRA

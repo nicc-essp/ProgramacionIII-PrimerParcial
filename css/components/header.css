@@ -71,10 +71,15 @@
     justify-self: center;
     display: flex;
     align-items: center;
+    cursor: default;
   }
 
   #logo-header {
     height: 40px;
+  }
+  
+  #header-centro:hover.recuperar-barra {
+    cursor: pointer;
   }
   /* Fin Centro */
 
