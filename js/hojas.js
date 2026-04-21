@@ -10,11 +10,11 @@ editorTitulo.addEventListener("input", () => {
 });
 // FIN TITULO
 
-// Detecta si el editor visualmente desborda la hoja
+// Desborda Hoja
 function desbordaHoja(editor) {
   return editor.scrollHeight > editor.clientHeight;
 }
-// Fin desbordaHoja
+// Fin Desborda Hoja
 
 // PARRAFO
 const editorParrafo = document.querySelector(".editor-parrafo");
@@ -162,9 +162,9 @@ function eliminarHoja(hojaAEliminar) {
   const hojasSiguiente = hojaAEliminar.nextElementSibling;
 
   if (hojaAnterior && hojaAnterior.classList.contains("hoja")) {
-    hojaAnterior.querySelector(".editor-parrafo").focus();
+    moverCursorAlFinal(hojaAnterior.querySelector(".editor-parrafo"));
   } else if (hojasSiguiente && hojasSiguiente.classList.contains("hoja")) {
-    hojasSiguiente.querySelector(".editor-parrafo").focus();
+    moverCursorAlFinal(hojasSiguiente.querySelector(".editor-parrafo"));
   }
 
   hojaAEliminar.remove();
@@ -199,4 +199,17 @@ document.querySelector(".espacio-hojas").addEventListener("input", (e) => {
     eliminarHoja(hojaActual);
   }
 });
+
+// Mover Cursor
+function moverCursorAlFinal(editor) {
+  editor.focus();
+  const range = document.createRange();
+  const sel = window.getSelection();
+  range.selectNodeContents(editor);
+  range.collapse(false); // False = Al Final
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+// Fin Mover Cursor
+
 // FIN CREAR HOJAS
