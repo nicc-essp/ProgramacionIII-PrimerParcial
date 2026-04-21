@@ -185,38 +185,126 @@ const boldBtn = document.getElementById("bold-icon");
 const italicBtn = document.getElementById("italic-icon");
 const underlineBtn = document.getElementById("underline-icon");
 
-//Bold
-boldBtn.addEventListener("click", () => {
-  if (boldBtn.classList.contains("active")) {
-    boldBtn.classList.remove("active")
-    //Quitar estilo al texto
-  } else {
-    boldBtn.classList.add("active")
-     //Agregar estilo al texto
-  }
+const editorTitulo = document.getElementById("editor-titulo");
+const editorParrafo = document.getElementById("editor-parrafo");
+
+boldBtn.addEventListener("mousedown", (e) => {
+  e.preventDefault();
 });
+
+//Bold
+let activeSpanBold = null;
+boldBtn.addEventListener("click", () => setBold());
 
 //Italic
-italicBtn.addEventListener("click", () => {
-  if (italicBtn.classList.contains("active")) {
-    italicBtn.classList.remove("active")
-    //Quitar estilo al texto
-  } else {
-    italicBtn.classList.add("active")
-     //Agregar estilo al texto
-  }
-});
+let activeSpanItalic = null;
+italicBtn.addEventListener("click", () => setItalic());
 
 //Underline
-underlineBtn.addEventListener("click", () => {
+let activeSpanUnderline = null;
+underlineBtn.addEventListener("click", () => setUnderline());
+
+function setBold() {
+  if (boldBtn.classList.contains("active")) {
+    boldBtn.classList.remove("active")
+    
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
+
+    range.setStartAfter(activeSpanBold);
+    range.collapse(true);
+
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    activeSpanBold = null;
+  } else {
+    boldBtn.classList.add("active")
+    
+    if (!activeSpanBold){
+      activeSpanBold = document.createElement("span");
+      activeSpanBold.style.fontWeight = "bold";
+
+      const selection = window.getSelection();
+      const range = selection.getRangeAt(0);
+
+      range.insertNode(activeSpanBold);
+      range.setStart(activeSpanBold, 0);
+      range.collapse(true);
+
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  }
+}
+
+function setItalic() {
+  if (italicBtn.classList.contains("active")) {
+    italicBtn.classList.remove("active")
+    
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
+
+    range.setStartAfter(activeSpanItalic);
+    range.collapse(true);
+
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    activeSpanItalic = null;
+  } else {
+    italicBtn.classList.add("active")
+    
+    if (!activeSpanItalic){
+      activeSpanItalic = document.createElement("span");
+      activeSpanItalic.style.fontStyle = "italic";
+
+      const selection = window.getSelection();
+      const range = selection.getRangeAt(0);
+
+      range.insertNode(activeSpanItalic);
+      range.setStart(activeSpanItalic, 0);
+      range.collapse(true);
+
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  }
+}
+
+function setUnderline() {
   if (underlineBtn.classList.contains("active")) {
     underlineBtn.classList.remove("active")
-    //Quitar estilo al texto
+    
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
+
+    range.setStartAfter(activeSpanUnderline);
+    range.collapse(true);
+
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    activeSpanUnderline = null;
   } else {
     underlineBtn.classList.add("active")
-     //Agregar estilo al texto
+    
+    if (!activeSpanUnderline){
+      activeSpanUnderline = document.createElement("span");
+      activeSpanUnderline.style.textDecoration = "underline";
+
+      const selection = window.getSelection();
+      const range = selection.getRangeAt(0);
+
+      range.insertNode(activeSpanUnderline);
+      range.setStart(activeSpanUnderline, 0);
+      range.collapse(true);
+
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
   }
-});
+}
 // FIN FUNCION APLICAR ESTILOS
 
 // FUNCION TAMAÑOS TEXTOS
