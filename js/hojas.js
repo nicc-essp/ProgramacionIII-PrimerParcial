@@ -94,7 +94,12 @@ document.querySelector(".espacio-hojas").addEventListener("paste", (e) => {
 
 // CONTADOR CARACTERES
 function contarCaracteres(texto) {
-  return texto.innerText.replace(/\n$/, "").length;
+  if (texto.innerText.replace(/\n$/, "").length > 1 || texto.innerText.replace(/\n$/, "").length == 0) {
+    return texto.innerText.replace(/\n$/, "").length + " " + "Caracteres";
+  } else {
+    return texto.innerText.replace(/\n$/, "").length + " " + "Caracter";
+  }
+  
 }
 // FIN CONTADOR CARACTERES
 
@@ -102,9 +107,15 @@ function contarCaracteres(texto) {
 function contarPalabras(texto) {
   const contenido = texto.innerText.trim();
 
-  if (contenido === "") return 0;
+  if (contenido === "") return 0 + " " + "Palabras";
 
-  return contenido.split(/\s+/).length;
+  if (contenido.split(/\s+/).length > 1 || contenido.split(/\s+/).length == 0) {
+    return contenido.split(/\s+/).length  + " " + "Palabras";
+  } else {
+    return contenido.split(/\s+/).length  + " " + "Palabra";
+  }
+
+  
 }
 // FIN CONTADOR PALABRAS
 
