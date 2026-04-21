@@ -60,6 +60,7 @@
     word-wrap: break-word;
     border-radius: inherit;
     transition: all 0.3s ease;
+    overflow: hidden;
 }
 
 /* Placeholder para contenteditable */

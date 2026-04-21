@@ -10,14 +10,11 @@ editorTitulo.addEventListener("input", () => {
 });
 // FIN TITULO
 
-// Longitud Real (normaliza saltos de línea múltiples)
-function longitudReal(editor) {
-  return editor.innerText
-    .replace(/\n{2,}/g, "\n") // múltiples saltos → uno solo
-    .replace(/^\n|\n$/g, "")  // saltos al inicio y final
-    .length;
+// Detecta si el editor visualmente desborda la hoja
+function desbordaHoja(editor) {
+  return editor.scrollHeight > editor.clientHeight;
 }
-// Fin Longitud Real
+// Fin desbordaHoja
 
 // PARRAFO
 const editorParrafo = document.querySelector(".editor-parrafo");
@@ -25,7 +22,7 @@ const editorParrafo = document.querySelector(".editor-parrafo");
 editorParrafo.addEventListener("keydown", (e) => {
   if (e.key.length > 1 && e.key !== "Enter") return;
 
-  if (longitudReal(editorParrafo) >= 3160) {
+  if (desbordaHoja(editorParrafo)) {
     e.preventDefault();
 
     const hojaActual = editorParrafo.closest(".hoja");
@@ -63,35 +60,32 @@ document.querySelector(".espacio-hojas").addEventListener("paste", (e) => {
 
   const textoPegado = (e.clipboardData || window.clipboardData).getData("text");
   const hojaActual = editor.closest(".hoja");
-  const espacioDisponible = 3160 - longitudReal(editor);
 
-  let bloques = [];
-  let textoRestante = textoPegado;
-
-  bloques.push(textoRestante.substring(0, espacioDisponible));
-  textoRestante = textoRestante.substring(espacioDisponible);
-
-  while (textoRestante.length > 0) {
-    bloques.push(textoRestante.substring(0, 3160));
-    textoRestante = textoRestante.substring(3160);
-  }
-
-  document.execCommand("insertText", false, bloques[0]);
-
+  // Insertá de a poco hasta que desborde, luego saltá a la siguiente hoja
   let hojaRef = hojaActual;
-  for (let i = 1; i < bloques.length; i++) {
-    let siguienteHoja = hojaRef.nextElementSibling;
+  let editorRef = editor;
+  let i = 0;
 
-    if (!siguienteHoja || !siguienteHoja.classList.contains("hoja")) {
-      agregarHoja();
-      siguienteHoja = hojaRef.nextElementSibling;
+  while (i < textoPegado.length) {
+    const char = textoPegado[i];
+    document.execCommand("insertText", false, char);
+
+    if (desbordaHoja(editorRef)) {
+      // Borrá el último caracter que causó el desborde
+      document.execCommand("delete", false);
+
+      let siguienteHoja = hojaRef.nextElementSibling;
+      if (!siguienteHoja || !siguienteHoja.classList.contains("hoja")) {
+        agregarHoja();
+        siguienteHoja = hojaRef.nextElementSibling;
+      }
+
+      editorRef = siguienteHoja.querySelector(".editor-parrafo");
+      editorRef.focus();
+      hojaRef = siguienteHoja;
+    } else {
+      i++;
     }
-
-    const siguienteEditor = siguienteHoja.querySelector(".editor-parrafo");
-    siguienteEditor.focus();
-    document.execCommand("insertText", false, bloques[i]);
-
-    hojaRef = siguienteHoja;
   }
 });
 // Fin Limitar Pegado
@@ -100,7 +94,7 @@ document.querySelector(".espacio-hojas").addEventListener("paste", (e) => {
 
 // CONTADOR CARACTERES
 function contarCaracteres(texto) {
-  return longitudReal(texto);
+  return texto.innerText.replace(/\n$/, "").length;
 }
 // FIN CONTADOR CARACTERES
 
@@ -184,7 +178,8 @@ document.querySelector(".espacio-hojas").addEventListener("input", (e) => {
   const todasLasHojas = document.querySelectorAll(".hoja");
   const esUltimaHoja = hojaActual === todasLasHojas[todasLasHojas.length - 1];
 
-  if (caracteres > 3160 && esUltimaHoja) {
+  // Si desborda visualmente y es la última hoja, creá una nueva
+  if (desbordaHoja(editor) && esUltimaHoja) {
     agregarHoja();
   }
 
