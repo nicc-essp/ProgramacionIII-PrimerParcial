@@ -23,7 +23,7 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 | Autoguardado local | Alta | Pendiente 🔴 |
 | Modo Oscuro | Media | Listo 🟢 |
 | Modo Cuidado Visual | Media | Listo 🟢 |
-| Contador de palabras  | Baja | Pendiente 🔴 |
+| Contador de palabras  | Baja | Listo 🟢 |
 
 ## 4. Arquitectura y estructura de carpetas
     ProgramacionIII-PrimerParcial/  

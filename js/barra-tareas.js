@@ -279,5 +279,3 @@ function esColorOscuro(hex) {
 }
 //Fin Comprobacion Color Oscuro
 // FIN FUNCION COLOR TEXTOS
-
- 
