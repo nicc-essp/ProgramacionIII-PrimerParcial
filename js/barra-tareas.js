@@ -204,29 +204,65 @@ italicBtn.addEventListener("click", () => setItalic());
 let activeSpanUnderline = null;
 underlineBtn.addEventListener("click", () => setUnderline());
 
+//Funcion Aplicar Bold
 function setBold() {
-  if (boldBtn.classList.contains("active")) {
-    boldBtn.classList.remove("active")
-    
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
 
-    range.setStartAfter(activeSpanBold);
-    range.collapse(true);
+  const range = selection.getRangeAt(0);
 
-    selection.removeAllRanges();
-    selection.addRange(range);
+  // Si hay texto seleccionado, verificá si ya tiene bold
+  if (!selection.isCollapsed) {
+    const contenedor = range.commonAncestorContainer;
+    const spanPadre = contenedor.nodeType === 3
+      ? contenedor.parentElement
+      : contenedor;
 
-    activeSpanBold = null;
-  } else {
-    boldBtn.classList.add("active")
-    
-    if (!activeSpanBold){
+    const yaTieneBold = spanPadre.closest("span[style*='font-weight: bold']") ||
+                        spanPadre.closest("b") ||
+                        spanPadre.closest("strong");
+
+    if (yaTieneBold) {
+      // Quitá el bold — reemplazá el span por su contenido
+      const texto = document.createTextNode(yaTieneBold.innerText);
+      yaTieneBold.replaceWith(texto);
+      boldBtn.classList.remove("active");
+      activeSpanBold = null;
+      return;
+    }
+
+    // No tiene bold, aplicalo
+    boldBtn.classList.add("active");
+
+    if (!activeSpanBold) {
       activeSpanBold = document.createElement("span");
       activeSpanBold.style.fontWeight = "bold";
+    }
 
-      const selection = window.getSelection();
+    const contenidoSeleccionado = range.extractContents();
+    activeSpanBold.appendChild(contenidoSeleccionado);
+    range.insertNode(activeSpanBold);
+
+    selection.removeAllRanges();
+
+  } else {
+    // Sin selección: toggle modo escritura bold
+    if (boldBtn.classList.contains("active")) {
+      boldBtn.classList.remove("active");
+
       const range = selection.getRangeAt(0);
+      range.setStartAfter(activeSpanBold);
+      range.collapse(true);
+
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      activeSpanBold = null;
+    } else {
+      boldBtn.classList.add("active");
+
+      activeSpanBold = document.createElement("span");
+      activeSpanBold.style.fontWeight = "bold";
 
       range.insertNode(activeSpanBold);
       range.setStart(activeSpanBold, 0);
@@ -238,29 +274,61 @@ function setBold() {
   }
 }
 
+//Funcion Aplicar Italic
 function setItalic() {
-  if (italicBtn.classList.contains("active")) {
-    italicBtn.classList.remove("active")
-    
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
 
-    range.setStartAfter(activeSpanItalic);
-    range.collapse(true);
+  const range = selection.getRangeAt(0);
 
-    selection.removeAllRanges();
-    selection.addRange(range);
+  if (!selection.isCollapsed) {
+    const contenedor = range.commonAncestorContainer;
+    const spanPadre = contenedor.nodeType === 3
+      ? contenedor.parentElement
+      : contenedor;
 
-    activeSpanItalic = null;
-  } else {
-    italicBtn.classList.add("active")
-    
-    if (!activeSpanItalic){
+    const yaTieneItalic = spanPadre.closest("span[style*='font-style: italic']") ||
+                          spanPadre.closest("i") ||
+                          spanPadre.closest("em");
+
+    if (yaTieneItalic) {
+      const texto = document.createTextNode(yaTieneItalic.innerText);
+      yaTieneItalic.replaceWith(texto);
+      italicBtn.classList.remove("active");
+      activeSpanItalic = null;
+      return;
+    }
+
+    italicBtn.classList.add("active");
+
+    if (!activeSpanItalic) {
       activeSpanItalic = document.createElement("span");
       activeSpanItalic.style.fontStyle = "italic";
+    }
 
-      const selection = window.getSelection();
+    const contenidoSeleccionado = range.extractContents();
+    activeSpanItalic.appendChild(contenidoSeleccionado);
+    range.insertNode(activeSpanItalic);
+
+    selection.removeAllRanges();
+
+  } else {
+    if (italicBtn.classList.contains("active")) {
+      italicBtn.classList.remove("active");
+
       const range = selection.getRangeAt(0);
+      range.setStartAfter(activeSpanItalic);
+      range.collapse(true);
+
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      activeSpanItalic = null;
+    } else {
+      italicBtn.classList.add("active");
+
+      activeSpanItalic = document.createElement("span");
+      activeSpanItalic.style.fontStyle = "italic";
 
       range.insertNode(activeSpanItalic);
       range.setStart(activeSpanItalic, 0);
@@ -272,29 +340,60 @@ function setItalic() {
   }
 }
 
+//Funcion Aplicar Underline
 function setUnderline() {
-  if (underlineBtn.classList.contains("active")) {
-    underlineBtn.classList.remove("active")
-    
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
 
-    range.setStartAfter(activeSpanUnderline);
-    range.collapse(true);
+  const range = selection.getRangeAt(0);
 
-    selection.removeAllRanges();
-    selection.addRange(range);
+  if (!selection.isCollapsed) {
+    const contenedor = range.commonAncestorContainer;
+    const spanPadre = contenedor.nodeType === 3
+      ? contenedor.parentElement
+      : contenedor;
 
-    activeSpanUnderline = null;
-  } else {
-    underlineBtn.classList.add("active")
-    
-    if (!activeSpanUnderline){
+    const yaTieneUnderline = spanPadre.closest("span[style*='text-decoration: underline']") ||
+                             spanPadre.closest("u");
+
+    if (yaTieneUnderline) {
+      const texto = document.createTextNode(yaTieneUnderline.innerText);
+      yaTieneUnderline.replaceWith(texto);
+      underlineBtn.classList.remove("active");
+      activeSpanUnderline = null;
+      return;
+    }
+
+    underlineBtn.classList.add("active");
+
+    if (!activeSpanUnderline) {
       activeSpanUnderline = document.createElement("span");
       activeSpanUnderline.style.textDecoration = "underline";
+    }
 
-      const selection = window.getSelection();
+    const contenidoSeleccionado = range.extractContents();
+    activeSpanUnderline.appendChild(contenidoSeleccionado);
+    range.insertNode(activeSpanUnderline);
+
+    selection.removeAllRanges();
+
+  } else {
+    if (underlineBtn.classList.contains("active")) {
+      underlineBtn.classList.remove("active");
+
       const range = selection.getRangeAt(0);
+      range.setStartAfter(activeSpanUnderline);
+      range.collapse(true);
+
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      activeSpanUnderline = null;
+    } else {
+      underlineBtn.classList.add("active");
+
+      activeSpanUnderline = document.createElement("span");
+      activeSpanUnderline.style.textDecoration = "underline";
 
       range.insertNode(activeSpanUnderline);
       range.setStart(activeSpanUnderline, 0);
@@ -307,21 +406,101 @@ function setUnderline() {
 }
 // FIN FUNCION APLICAR ESTILOS
 
-// FUNCION TAMAÑOS TEXTOS
-const botones = document.querySelectorAll("#selector-tamaño i");
+/// FUNCION TAMAÑO
+const size1Btn = document.getElementById("size1");
+const size2Btn = document.getElementById("size2");
+const size3Btn = document.getElementById("size3");
 
+const sizeBtns = [size1Btn, size2Btn, size3Btn];
+const sizes = ["13px", "18px", "25px"];
 
-botones.forEach(btn => {
+let activeSpanSize = null;
+
+function setFontSize(size) {
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+
+  const range = selection.getRangeAt(0);
+
+  if (!selection.isCollapsed) {
+    const contenedor = range.commonAncestorContainer;
+    const spanPadre = contenedor.nodeType === 3
+      ? contenedor.parentElement
+      : contenedor;
+
+    const yaTieneTamaño = spanPadre.closest("span[style*='font-size']");
+
+    if (yaTieneTamaño) {
+      if (yaTieneTamaño.style.fontSize === size) {
+        const texto = document.createTextNode(yaTieneTamaño.innerText);
+        yaTieneTamaño.replaceWith(texto);
+        return;
+      }
+      yaTieneTamaño.style.fontSize = size;
+      return;
+    }
+
+    const spanSize = document.createElement("span");
+    spanSize.style.fontSize = size;
+
+    const contenidoSeleccionado = range.extractContents();
+    spanSize.appendChild(contenidoSeleccionado);
+    range.insertNode(spanSize);
+
+    selection.removeAllRanges();
+
+  } else {
+    if (activeSpanSize) {
+      const range = selection.getRangeAt(0);
+      range.setStartAfter(activeSpanSize);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      activeSpanSize = null;
+    }
+
+    activeSpanSize = document.createElement("span");
+    activeSpanSize.style.fontSize = size;
+
+    const range2 = selection.getRangeAt(0);
+    range2.insertNode(activeSpanSize);
+    range2.setStart(activeSpanSize, 0);
+    range2.collapse(true);
+
+    selection.removeAllRanges();
+    selection.addRange(range2);
+  }
+}
+
+sizeBtns.forEach((btn, index) => {
   btn.addEventListener("click", () => {
-    
-    // sacar active de todos
-    botones.forEach(b => b.classList.remove("active"));
 
-    // agregar al clickeado
+    if (btn.classList.contains("active")) {
+      btn.classList.remove("active");
+
+      const selection = window.getSelection();
+      if (selection.rangeCount && !selection.isCollapsed) {
+        const range = selection.getRangeAt(0);
+        const contenedor = range.commonAncestorContainer;
+        const spanPadre = contenedor.nodeType === 3
+          ? contenedor.parentElement
+          : contenedor;
+
+        const yaTieneTamaño = spanPadre.closest("span[style*='font-size']");
+        if (yaTieneTamaño) {
+          const texto = document.createTextNode(yaTieneTamaño.innerText);
+          yaTieneTamaño.replaceWith(texto);
+        }
+      }
+      return;
+    }
+
+    sizeBtns.forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
+    setFontSize(sizes[index]);
   });
 });
-// FIN FUNCION TAMAÑOS TEXTOS
+// FIN FUNCION TAMAÑO
 
 // FUNCION COLOR TEXTOS
 const picker = document.getElementById("selector-color");
