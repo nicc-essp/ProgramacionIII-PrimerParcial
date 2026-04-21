@@ -204,65 +204,29 @@ italicBtn.addEventListener("click", () => setItalic());
 let activeSpanUnderline = null;
 underlineBtn.addEventListener("click", () => setUnderline());
 
-//Funcion Aplicar Bold
 function setBold() {
-  const selection = window.getSelection();
-  if (!selection.rangeCount) return;
+  if (boldBtn.classList.contains("active")) {
+    boldBtn.classList.remove("active")
+    
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
 
-  const range = selection.getRangeAt(0);
-
-  // Si hay texto seleccionado, verificá si ya tiene bold
-  if (!selection.isCollapsed) {
-    const contenedor = range.commonAncestorContainer;
-    const spanPadre = contenedor.nodeType === 3
-      ? contenedor.parentElement
-      : contenedor;
-
-    const yaTieneBold = spanPadre.closest("span[style*='font-weight: bold']") ||
-                        spanPadre.closest("b") ||
-                        spanPadre.closest("strong");
-
-    if (yaTieneBold) {
-      // Quitá el bold — reemplazá el span por su contenido
-      const texto = document.createTextNode(yaTieneBold.innerText);
-      yaTieneBold.replaceWith(texto);
-      boldBtn.classList.remove("active");
-      activeSpanBold = null;
-      return;
-    }
-
-    // No tiene bold, aplicalo
-    boldBtn.classList.add("active");
-
-    if (!activeSpanBold) {
-      activeSpanBold = document.createElement("span");
-      activeSpanBold.style.fontWeight = "bold";
-    }
-
-    const contenidoSeleccionado = range.extractContents();
-    activeSpanBold.appendChild(contenidoSeleccionado);
-    range.insertNode(activeSpanBold);
+    range.setStartAfter(activeSpanBold);
+    range.collapse(true);
 
     selection.removeAllRanges();
+    selection.addRange(range);
 
+    activeSpanBold = null;
   } else {
-    // Sin selección: toggle modo escritura bold
-    if (boldBtn.classList.contains("active")) {
-      boldBtn.classList.remove("active");
-
-      const range = selection.getRangeAt(0);
-      range.setStartAfter(activeSpanBold);
-      range.collapse(true);
-
-      selection.removeAllRanges();
-      selection.addRange(range);
-
-      activeSpanBold = null;
-    } else {
-      boldBtn.classList.add("active");
-
+    boldBtn.classList.add("active")
+    
+    if (!activeSpanBold){
       activeSpanBold = document.createElement("span");
       activeSpanBold.style.fontWeight = "bold";
+
+      const selection = window.getSelection();
+      const range = selection.getRangeAt(0);
 
       range.insertNode(activeSpanBold);
       range.setStart(activeSpanBold, 0);
@@ -274,61 +238,29 @@ function setBold() {
   }
 }
 
-//Funcion Aplicar Italic
 function setItalic() {
-  const selection = window.getSelection();
-  if (!selection.rangeCount) return;
+  if (italicBtn.classList.contains("active")) {
+    italicBtn.classList.remove("active")
+    
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
 
-  const range = selection.getRangeAt(0);
-
-  if (!selection.isCollapsed) {
-    const contenedor = range.commonAncestorContainer;
-    const spanPadre = contenedor.nodeType === 3
-      ? contenedor.parentElement
-      : contenedor;
-
-    const yaTieneItalic = spanPadre.closest("span[style*='font-style: italic']") ||
-                          spanPadre.closest("i") ||
-                          spanPadre.closest("em");
-
-    if (yaTieneItalic) {
-      const texto = document.createTextNode(yaTieneItalic.innerText);
-      yaTieneItalic.replaceWith(texto);
-      italicBtn.classList.remove("active");
-      activeSpanItalic = null;
-      return;
-    }
-
-    italicBtn.classList.add("active");
-
-    if (!activeSpanItalic) {
-      activeSpanItalic = document.createElement("span");
-      activeSpanItalic.style.fontStyle = "italic";
-    }
-
-    const contenidoSeleccionado = range.extractContents();
-    activeSpanItalic.appendChild(contenidoSeleccionado);
-    range.insertNode(activeSpanItalic);
+    range.setStartAfter(activeSpanItalic);
+    range.collapse(true);
 
     selection.removeAllRanges();
+    selection.addRange(range);
 
+    activeSpanItalic = null;
   } else {
-    if (italicBtn.classList.contains("active")) {
-      italicBtn.classList.remove("active");
-
-      const range = selection.getRangeAt(0);
-      range.setStartAfter(activeSpanItalic);
-      range.collapse(true);
-
-      selection.removeAllRanges();
-      selection.addRange(range);
-
-      activeSpanItalic = null;
-    } else {
-      italicBtn.classList.add("active");
-
+    italicBtn.classList.add("active")
+    
+    if (!activeSpanItalic){
       activeSpanItalic = document.createElement("span");
       activeSpanItalic.style.fontStyle = "italic";
+
+      const selection = window.getSelection();
+      const range = selection.getRangeAt(0);
 
       range.insertNode(activeSpanItalic);
       range.setStart(activeSpanItalic, 0);
@@ -340,60 +272,29 @@ function setItalic() {
   }
 }
 
-//Funcion Aplicar Underline
 function setUnderline() {
-  const selection = window.getSelection();
-  if (!selection.rangeCount) return;
+  if (underlineBtn.classList.contains("active")) {
+    underlineBtn.classList.remove("active")
+    
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
 
-  const range = selection.getRangeAt(0);
-
-  if (!selection.isCollapsed) {
-    const contenedor = range.commonAncestorContainer;
-    const spanPadre = contenedor.nodeType === 3
-      ? contenedor.parentElement
-      : contenedor;
-
-    const yaTieneUnderline = spanPadre.closest("span[style*='text-decoration: underline']") ||
-                             spanPadre.closest("u");
-
-    if (yaTieneUnderline) {
-      const texto = document.createTextNode(yaTieneUnderline.innerText);
-      yaTieneUnderline.replaceWith(texto);
-      underlineBtn.classList.remove("active");
-      activeSpanUnderline = null;
-      return;
-    }
-
-    underlineBtn.classList.add("active");
-
-    if (!activeSpanUnderline) {
-      activeSpanUnderline = document.createElement("span");
-      activeSpanUnderline.style.textDecoration = "underline";
-    }
-
-    const contenidoSeleccionado = range.extractContents();
-    activeSpanUnderline.appendChild(contenidoSeleccionado);
-    range.insertNode(activeSpanUnderline);
+    range.setStartAfter(activeSpanUnderline);
+    range.collapse(true);
 
     selection.removeAllRanges();
+    selection.addRange(range);
 
+    activeSpanUnderline = null;
   } else {
-    if (underlineBtn.classList.contains("active")) {
-      underlineBtn.classList.remove("active");
-
-      const range = selection.getRangeAt(0);
-      range.setStartAfter(activeSpanUnderline);
-      range.collapse(true);
-
-      selection.removeAllRanges();
-      selection.addRange(range);
-
-      activeSpanUnderline = null;
-    } else {
-      underlineBtn.classList.add("active");
-
+    underlineBtn.classList.add("active")
+    
+    if (!activeSpanUnderline){
       activeSpanUnderline = document.createElement("span");
       activeSpanUnderline.style.textDecoration = "underline";
+
+      const selection = window.getSelection();
+      const range = selection.getRangeAt(0);
 
       range.insertNode(activeSpanUnderline);
       range.setStart(activeSpanUnderline, 0);
