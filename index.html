@@ -20,6 +20,11 @@
         >
         <link rel="icon" href="./assets/img/logo-blanco.png" />
         <link rel="stylesheet" href="./css/index.css" />
+        <link rel="stylesheet" href="./css/components/header.css" />
+        <link rel="stylesheet" href="./css/components/barra-tareas.css" />
+        <link rel="stylesheet" href="./css/components/hojas.css" />
+        <link rel="stylesheet" href="./css/components/textos.css" />
+        <link rel="stylesheet" href="./css/components/modes.css" />
     </head>
 
     <body>
@@ -50,42 +55,40 @@
         </header>
 
         <!-- BARRA DE TAREAS -->
-        <div class="barra-funciones">
+         <div class="barra-funciones">
             <div id="funciones">
-              <i class="fa-solid fa-arrows-up-down-left-right" id="icon-move-barra"></i>
-                <!-- COMPONENTES -->
-                <div id="funciones-estilos">
-                  <i class="ri-bold" id="bold-icon"></i>
-                  <i class="ri-italic" id="italic-icon"></i>
-                  <i class="ri-underline" id="underline-icon"></i>
-                </div>
-          
-                <!-- DIVISOR -->
-                <div id="divider"></div>
-          
-                <!-- TAMAÑO LETRA -->
-                <div id="selector-tamaño">
-                  <i class="fa-solid fa-text-height" id="size1"></i>
-                  <i class="fa-solid fa-text-height active" id="size2"></i>
-                  <i class="fa-solid fa-text-height" id="size3"></i>
-                </div>
-          
-                <!-- DIVISOR -->
-                <div id="divider"></div>
-          
-                <!-- SELECTOR COLOR -->
-                <div id="color-picker">
-                  <input type="color" id="selector-color">
-                  <p id="color-actual">#458A33</p>
-                </div>
+                <i class="fa-solid fa-arrows-up-down-left-right" id="icon-move-barra"></i>
+                  <!-- COMPONENTES -->
+                  <div id="funciones-estilos">
+                    <!-- Negrita -->
+                    <i class="ri-bold" id="bold-icon"></i>
+                    <!-- Italic -->
+                    <i class="ri-italic" id="italic-icon"></i>
+                    <!-- Underline -->
+                    <i class="ri-underline" id="underline-icon"></i>
+                  </div>
+
+                    <!-- DIVISOR -->
+                    <div id="divider"></div>
+
+                    <!-- TAMAÑO LETRA -->
+                    <div id="selector-tamaño">
+                        <i class="fa-solid fa-text-height" id="size1"></i>
+                        <i class="fa-solid fa-text-height active" id="size2"></i>
+                        <i class="fa-solid fa-text-height" id="size3"></i>
+                    </div>
+
+                    <!-- DIVISOR -->
+                    <div id="divider"></div>
+
+                    <!-- SELECTOR COLOR -->
+                    <div id="color-picker">
+                        <input type="color" id="selector-color">
+                        <p id="color-actual">#458A33</p>
+                    </div>
+                    
             </div>
-          
-            <!-- ISLA SECUNDARIA -->
-            <div id="isla-secundaria">
-              <!-- contenido -->
-            </div>
-          
-          </div>
+        </div>
 
           <!-- HOJAS -->
           <div class="espacio-hojas">
@@ -102,9 +105,9 @@
                     <p class="contador-hoja">Hoja N.º1</p>
 
                     <div class="contenido-contador">
-                        <p class="contador-palabras">0</p>
+                        <p class="contador-palabras">0 Palabras</p>
                         <div class="divider-contador"></div>
-                        <p class="contador-caracteres">0</p>
+                        <p class="contador-caracteres">0 Caracteres</p>
                     </div>
 
                   </div>
