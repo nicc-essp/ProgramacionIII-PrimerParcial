@@ -1,0 +1,89 @@
+/* Editor Canvas Styles */
+
+ /* TITULO */
+ .editor-titulo {
+    width: 100%;
+    height: auto;
+    padding: 40px 40px 10px 40px;
+    margin-bottom: 5px;
+    box-sizing: border-box;
+    outline: none; /* Quita el borde azul de enfoque */
+    font-size: 2.3rem;
+    line-height: 2;
+    color: #494b50d2;
+    overflow: hidden;
+    white-space: pre-wrap; /* Mantiene espacios y saltos de línea */
+    word-wrap: break-word;
+    border-radius: inherit;
+    transition: all 0.3s ease;
+}
+
+/* Placeholder para contenteditable */
+.editor-titulo:empty::before {
+    content: attr(data-placeholder);
+    color: #424552d2;
+    pointer-events: none; /* Para que el clic pase a través del texto */
+    display: block; /* Para que ocupe espacio y se vea bien */
+}
+
+/* Personalización del scrollbar para mantener el minimalismo */
+.editor-titulo::-webkit-scrollbar {
+    width: 8px;
+}
+
+.editor-titulo::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.editor-titulo::-webkit-scrollbar-thumb {
+    background: var(--color-terciario);
+    border-radius: 10px;
+}
+
+.editor-titulo::-webkit-scrollbar-thumb:hover {
+    background: var(--color-terciario);
+}
+
+/* PARRAFOS */
+.editor-parrafo {
+    width: 100%;
+    height: auto;
+    padding: 5px 40px 40px 40px;
+    box-sizing: border-box;
+    outline: none; /* Quita el borde azul de enfoque */
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--color-cuaternario);
+    overflow-y: auto;
+    margin-top: 0;
+    white-space: pre-wrap; /* Mantiene espacios y saltos de línea */
+    word-wrap: break-word;
+    border-radius: inherit;
+    transition: all 0.3s ease;
+}
+
+/* Placeholder para contenteditable */
+.editor-parrafo:empty::before {
+    content: attr(data-placeholder);
+    color: #a0a0a0;
+    pointer-events: none; /* Para que el clic pase a través del texto */
+    display: block; /* Para que ocupe espacio y se vea bien */
+}
+
+/* Personalización del scrollbar para mantener el minimalismo */
+.editor-parrafo::-webkit-scrollbar {
+    width: 8px;
+}
+
+.editor-parrafo::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.editor-parrafo::-webkit-scrollbar-thumb {
+    background: var(--color-terciario);
+    border-radius: 10px;
+}
+
+.editor-parrafo::-webkit-scrollbar-thumb:hover {
+    background: var(--color-terciario);
+}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-AR">
 
 <html>
     <head>
@@ -13,6 +13,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -52,21 +53,76 @@
          <section class="barra-funciones">
             <div id="funciones">
                 <i class="fa-solid fa-arrows-up-down-left-right" id="icon-move-barra"></i>
-                <!-- COMPONENTES -->
+                  <!-- COMPONENTES -->
+                  <div id="funciones-estilos">
+                    <!-- Negrita -->
+                    <i class="ri-bold active" id="bold-icon"></i>
+                    <!-- Italic -->
+                    <i class="ri-italic" id="italic-icon"></i>
+                    <!-- Underline -->
+                    <i class="ri-underline" id="underline-icon"></i>
+                  </div>
+
+                    <!-- DIVISOR -->
+                    <div id="divider"></div>
+
+                    <!-- TAMAÑO LETRA -->
+                    <div id="selector-tamaño">
+                        <i class="fa-solid fa-text-height" id="size1"></i>
+                        <i class="fa-solid fa-text-height active" id="size2"></i>
+                        <i class="fa-solid fa-text-height" id="size3"></i>
+                    </div>
+
+                    <!-- DIVISOR -->
+                    <div id="divider"></div>
+
+                    <!-- SELECTOR COLOR -->
+                    <div id="color-picker">
+                        <input type="color" id="selector-color">
+                        <p id="color-actual">#458A33</p>
+                    </div>
+                    
             </div>
          </section>
 
-         <!-- HOJAS -->
-         <section class="espacio-hojas">
-            <div id="hoja">
-                <!-- COMPONENTES -->
-            </div>
-         </section>
+          <!-- HOJAS -->
+          <div class="espacio-hojas">
+             <div class="hoja">
+                <!-- Titulo -->
+                 <div class="editor-titulo" contenteditable="true" data-placeholder="Documento sin título"></div>
 
+                 <!-- Parrafo -->
+                 <div class="editor-parrafo" contenteditable="true" data-placeholder="Comienza a escribir..."></div>
+
+                 <!-- Contador Hoja, Palabras y Caracteres -->
+                  <div class="espacio-contador">
+
+                    <p class="contador-hoja">Hoja N.º1</p>
+
+                    <div class="contenido-contador">
+                        <p class="contador-palabras">0</p>
+                        <div class="divider-contador"></div>
+                        <p class="contador-caracteres">0</p>
+                    </div>
+
+                  </div>
+             </div>
+            </div>
+ 
+        <!-- Boton Reset Posicion-->
          <div id="reset">
             <i class="fa-solid fa-rotate-right" id="icon-reset"></i>
           </div>
-
-         <script src="/js/script.js"></script>
+ 
+        <!-- Capa Modo Nocturno-->
+        <div id="nightOverlay" class="night-overlay" style="display:none;"></div> 
+ 
+         <!--SCRIPTS-->
+         <!-- Modo Oscuro -->
+         <script src="/js/modes.js"></script>
+          <!-- Barra De Tareas -->
+         <script src="/js/barra-tareas.js"></script>
+         <!-- Hoja -->
+         <script src="/js/hojas.js"></script>
     </body>
 </html>

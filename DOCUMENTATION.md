@@ -16,14 +16,14 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 | Funcionalidad | Prioridad   | Estado |
 |---------------|-------------|--------|
 | Diseño con Flexbox | Obligatorio | En Desarrollo 🟡 |
-| Barra de herramientas basica(Fuente, Tamaño, Negrita, Cursiva, Alineación) | Obligatorio | Pendiente 🔴 |
-| Area de texto | Obligatorio | Pendiente 🔴 |
+| Barra de herramientas basica(Fuente, Tamaño, Negrita, Cursiva, Alineación) | Obligatorio | Listo 🟢 |
+| Area de texto | Obligatorio | Listo 🟢 |
 | Gestión de archivos (.txt / .md: Crear, Abrir, Guardar) | Alta | Pendiente 🔴 |
 | Diseño Responsivo | Alta | Pendiente 🔴 |
 | Autoguardado local | Alta | Pendiente 🔴 |
-| Modo Oscuro | Media | Pendiente 🔴 |
-| Modo Cuidado Visual | Media | Pendiente 🔴 |
-| Contador de palabras  | Baja | Pendiente 🔴 |
+| Modo Oscuro | Media | Listo 🟢 |
+| Modo Cuidado Visual | Media | Listo 🟢 |
+| Contador de palabras  | Baja | Listo 🟢 |
 
 ## 4. Arquitectura y estructura de carpetas
     ProgramacionIII-PrimerParcial/  
@@ -63,13 +63,13 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 
 ### Para organizar las tareas, el proyecto se divide en 4 fases. Esto permite trabajar en paralelo sin interferencias:
 
-### Fase 1: Fundamentos y Layout (El Esqueleto)
-#### T1: Inicializar repositorio en GitHub con Git Flow (ramas Main/Develop).
-#### T2: Crear index.html con estructura semántica principal.
-#### T3: Implementar layout base con Flexbox (Header, Canvas, Footer).
-#### T4: Diseñar el área principal de escritura con CSS puro.
+### Fase 1: Fundamentos y Layout (El Esqueleto) ✅
+#### T1: Inicializar repositorio en GitHub con Git Flow (ramas Main/Develop). ✅
+#### T2: Crear index.html con estructura semántica principal. ✅
+#### T3: Implementar layout base con Flexbox (Header, Canvas, Footer). ✅
+#### T4: Diseñar el área principal de escritura con CSS puro. ✅
 
-### Fase 2: Lógica y Formato de Texto (El Músculo)
+### Fase 2: Lógica y Formato de Texto (El Músculo) - En Progreso 🟡
 #### T5: Implementar listeners en JavaScript para selección de texto.
 #### T6: Lógica para Negrita, Cursiva y Subrayado (Obligatoria).
 #### T7: Lógica de alineación de texto (Izquierda, Centro, Derecha).
@@ -85,3 +85,15 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 #### T13: Implementar Modo Oscuro y Modo Cuidado Visual (Variables/Clases CSS).
 #### T14: Pulido final de UI: transiciones, efectos hover y scrollbars minimalistas.
 #### T15: Actualización final de documentación (README & DOCUMENTATION).
+
+
+
+#### EN DESARROLLO  
+## Diseño basico:  
+
+## Dark Mode: Se esta implementando la funcionalidad de alternar el fondo de la pagina web por medio del icono lunar (Id: icon-mode) y un Event Listener. Se utilizo informacion del siguinte link (https://www.w3schools.com/js/js_events.asp#gsc.tab=0).                         Tambien se agrego la funcionalidad para alternar entre luz nocturna y diurna, lo que mejora la visibilidad en horarios nocturnos para descansar la vista. Esto se realizo mediante codigo en html y javascript 
+
+### FINALIZADO
+## -- DarkMode -- : Se concluyeron las funcionalidades para alternar entre modo oscuro y modo claro, ademas se agrego la funcion para proteger la vista con el modo nocturno
+
+   
