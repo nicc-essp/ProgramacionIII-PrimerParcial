@@ -1,162 +1,108 @@
 /* HEADER */
 .header {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    justify-content: space-between;
-    position: relative; 
-    height: 80px;
-    padding-left: 30px;
-    padding-right: 30px;
-  }
-  
-  #header-izquierdo,
-  #header-centro,
-  #header-derecho {
-    display: flex;
-    align-items: center;
-  }
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  position: relative;
+  height: 80px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
 
-  /* Izquierda */
-  #header-izquierdo {
-    position: relative;
-    justify-self: start;
-    width: 24px;
-    height: 24px;
-  }
+#header-centro,
+#header-derecho {
+  display: flex;
+  align-items: center;
+}
 
-  /* Iconos */
-  #header-izquierdo i {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.3s ease;
-  }
+/* Centro */
+#header-centro {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: default;
+}
 
-  #icon-menu {
-    opacity: 1;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
+#logo-header {
+  height: 40px;
+}
 
-  #icon-menu-hover {
-    opacity: 0;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
+#header-centro.recuperar-barra {
+  cursor: pointer;
+}
+/* Fin Centro */
 
-  /* Hover */
-  #header-izquierdo:hover #icon-menu {
-    opacity: 0;
-    cursor: pointer;
-  }
-  
-  #header-izquierdo:hover #icon-menu-hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-  /* Fin Izquierda */
-  
-  /* Centro */
-  #header-centro {
-    justify-self: center;
-    display: flex;
-    align-items: center;
-    cursor: default;
-  }
+/* Derecha */
+#header-derecho {
+  position: relative;
+  justify-self: end;
+  width: 80px;
+  height: 24px;
+}
 
-  #logo-header {
-    height: 40px;
-  }
-  
-  #header-centro:hover.recuperar-barra {
-    cursor: pointer;
-  }
-  /* Fin Centro */
+/* Iconos */
+#header-derecho i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+/* Fin Iconos */
 
-  /* Derecha */
-  #header-derecho {
-    position: relative; 
-    justify-self: end;
-    width: 80px;    
-    height: 24px;
-  }
-  
-  /* Iconos */
-  #header-derecho i {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 30px; 
-    height: 30px;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-  /* Fin Iconos */
-  
-  /* Posiciones */
-  #icon-glass,
-  #icon-glass-hover {
-    left: 0;
-  }
-  
-  #icon-mode,
-  #icon-mode-hover {
-    left: 60px;
-  }
-  /* Fin Posiciones */
-  
-  /* Ocultos */
-  #icon-glass,
-  #icon-mode {
-    opacity: 1;
-  }
-  /* Fin Ocultos */
-  
-  #icon-glass-hover,
-  #icon-mode-hover {
-    opacity: 0;
-    pointer-events: none;
-  }
-  
-  /* Hover */
-  #icon-glass:hover {
-    opacity: 0;
-    cursor: pointer;
-  }
-  
-  #icon-glass:hover + #icon-glass-hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-  
-  #icon-mode:hover {
-    opacity: 0;
-    cursor: pointer;
-  }
-  
-  #icon-mode:hover + #icon-mode-hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-  /* Fin Hover */
+/* Posiciones */
+#icon-glass,
+#icon-glass-hover {
+  left: 0;
+}
 
-  /* Activo */
-  #icon-glass.active {
-    color: #FFD43A;
-  }
+#icon-mode,
+#icon-mode-hover {
+  left: 60px;
+}
+/* Fin Posiciones */
 
-  /* Fin Derecha */
-  /* FIN HEADER */
+#icon-glass,
+#icon-mode {
+  opacity: 1;
+}
+
+#icon-glass-hover,
+#icon-mode-hover {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Hover */
+#icon-glass:hover {
+  opacity: 0;
+  cursor: pointer;
+}
+
+#icon-glass:hover + #icon-glass-hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+#icon-mode:hover {
+  opacity: 0;
+  cursor: pointer;
+}
+
+#icon-mode:hover + #icon-mode-hover {
+  opacity: 1;
+  cursor: pointer;
+}
+/* Fin Hover */
+
+/* Activo */
+#icon-glass.active {
+  color: #FFD43A;
+}
+/* Fin Derecha */
+/* FIN HEADER */

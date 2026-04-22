@@ -185,126 +185,348 @@ const boldBtn = document.getElementById("bold-icon");
 const italicBtn = document.getElementById("italic-icon");
 const underlineBtn = document.getElementById("underline-icon");
 
-const editorTitulo = document.getElementById("editor-titulo");
-const editorParrafo = document.getElementById("editor-parrafo");
+boldBtn.addEventListener("mousedown", (e) => e.preventDefault());
+italicBtn.addEventListener("mousedown", (e) => e.preventDefault());
+underlineBtn.addEventListener("mousedown", (e) => e.preventDefault());
 
-boldBtn.addEventListener("mousedown", (e) => {
-  e.preventDefault();
-});
+// Helpers
+function tieneEstilo(spanPadre, propiedad, valor) {
+  return spanPadre.closest(`span[style*='${propiedad}: ${valor}']`);
+}
 
-//Bold
+function aplicarEstilo(propiedad, valor) {
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+
+  const range = selection.getRangeAt(0);
+
+  if (!selection.isCollapsed) {
+    const nodo = range.commonAncestorContainer;
+    const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
+    const yaTiene = tieneEstilo(spanPadre, propiedad, valor);
+
+    if (yaTiene) {
+      // Quitá el estilo solo al texto seleccionado
+      const textoSinEstilo = document.createTextNode(range.toString());
+      range.deleteContents();
+      range.insertNode(textoSinEstilo);
+    } else {
+      // Aplicá el estilo solo al texto seleccionado
+      const span = document.createElement("span");
+      span.style[propiedad === "font-weight" ? "fontWeight" :
+                  propiedad === "font-style" ? "fontStyle" :
+                  "textDecoration"] = valor;
+      const contenido = range.extractContents();
+      span.appendChild(contenido);
+      range.insertNode(span);
+    }
+
+    selection.removeAllRanges();
+
+  } else {
+    // Modo escritura: toggle
+    return { toggle: true };
+  }
+}
+
+// Bold
 let activeSpanBold = null;
+let boldManual = false;
 boldBtn.addEventListener("click", () => setBold());
 
-//Italic
-let activeSpanItalic = null;
-italicBtn.addEventListener("click", () => setItalic());
-
-//Underline
-let activeSpanUnderline = null;
-underlineBtn.addEventListener("click", () => setUnderline());
-
 function setBold() {
-  if (boldBtn.classList.contains("active")) {
-    boldBtn.classList.remove("active")
-    
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
 
-    range.setStartAfter(activeSpanBold);
-    range.collapse(true);
+  const range = selection.getRangeAt(0);
+
+  if (!selection.isCollapsed) {
+    const nodo = range.commonAncestorContainer;
+    const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
+    const yaTiene = spanPadre.closest("span[style*='font-weight: bold']") ||
+                    spanPadre.closest("b") ||
+                    spanPadre.closest("strong");
+
+    if (yaTiene) {
+      const textoSinEstilo = document.createTextNode(range.toString());
+      range.deleteContents();
+      range.insertNode(textoSinEstilo);
+      boldBtn.classList.remove("active");
+      activeSpanBold = null;
+      boldManual = false;
+    } else {
+      const span = document.createElement("span");
+      span.style.fontWeight = "bold";
+      const contenido = range.extractContents();
+      span.appendChild(contenido);
+      range.insertNode(span);
+      activeSpanBold = span;
+      boldBtn.classList.add("active");
+      boldManual = false;
+    }
 
     selection.removeAllRanges();
     selection.addRange(range);
 
     activeSpanBold = null;
   } else {
-    boldBtn.classList.add("active")
-    
-    if (!activeSpanBold){
+    if (boldBtn.classList.contains("active")) {
+      boldManual = false;
+      boldBtn.classList.remove("active");
+
+      if (activeSpanBold) {
+        const r = selection.getRangeAt(0);
+        r.setStartAfter(activeSpanBold);
+        r.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(r);
+        activeSpanBold = null;
+      }
+    } else {
+      boldManual = true;
+      boldBtn.classList.add("active");
+
       activeSpanBold = document.createElement("span");
       activeSpanBold.style.fontWeight = "bold";
 
-      const selection = window.getSelection();
-      const range = selection.getRangeAt(0);
-
-      range.insertNode(activeSpanBold);
-      range.setStart(activeSpanBold, 0);
-      range.collapse(true);
+      const r = selection.getRangeAt(0);
+      r.insertNode(activeSpanBold);
+      r.setStart(activeSpanBold, 0);
+      r.collapse(true);
 
       selection.removeAllRanges();
-      selection.addRange(range);
+      selection.addRange(r);
     }
   }
 }
 
-function setItalic() {
-  if (italicBtn.classList.contains("active")) {
-    italicBtn.classList.remove("active")
-    
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
+// Italic
+let activeSpanItalic = null;
+let italicManual = false;
+italicBtn.addEventListener("click", () => setItalic());
 
-    range.setStartAfter(activeSpanItalic);
-    range.collapse(true);
+function setItalic() {
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+
+  const range = selection.getRangeAt(0);
+
+  if (!selection.isCollapsed) {
+    const nodo = range.commonAncestorContainer;
+    const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
+    const yaTiene = spanPadre.closest("span[style*='font-style: italic']") ||
+                    spanPadre.closest("i") ||
+                    spanPadre.closest("em");
+
+    if (yaTiene) {
+      const textoSinEstilo = document.createTextNode(range.toString());
+      range.deleteContents();
+      range.insertNode(textoSinEstilo);
+      italicBtn.classList.remove("active");
+      activeSpanItalic = null;
+      italicManual = false;
+    } else {
+      const span = document.createElement("span");
+      span.style.fontStyle = "italic";
+      const contenido = range.extractContents();
+      span.appendChild(contenido);
+      range.insertNode(span);
+      activeSpanItalic = span;
+      italicBtn.classList.add("active");
+      italicManual = false;
+    }
 
     selection.removeAllRanges();
     selection.addRange(range);
 
     activeSpanItalic = null;
   } else {
-    italicBtn.classList.add("active")
-    
-    if (!activeSpanItalic){
+    if (italicBtn.classList.contains("active")) {
+      italicManual = false;
+      italicBtn.classList.remove("active");
+
+      if (activeSpanItalic) {
+        const r = selection.getRangeAt(0);
+        r.setStartAfter(activeSpanItalic);
+        r.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(r);
+        activeSpanItalic = null;
+      }
+    } else {
+      italicManual = true;
+      italicBtn.classList.add("active");
+
       activeSpanItalic = document.createElement("span");
       activeSpanItalic.style.fontStyle = "italic";
 
-      const selection = window.getSelection();
-      const range = selection.getRangeAt(0);
-
-      range.insertNode(activeSpanItalic);
-      range.setStart(activeSpanItalic, 0);
-      range.collapse(true);
+      const r = selection.getRangeAt(0);
+      r.insertNode(activeSpanItalic);
+      r.setStart(activeSpanItalic, 0);
+      r.collapse(true);
 
       selection.removeAllRanges();
-      selection.addRange(range);
+      selection.addRange(r);
     }
   }
 }
 
-function setUnderline() {
-  if (underlineBtn.classList.contains("active")) {
-    underlineBtn.classList.remove("active")
-    
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
+// Underline
+let activeSpanUnderline = null;
+let underlineManual = false;
+underlineBtn.addEventListener("click", () => setUnderline());
 
-    range.setStartAfter(activeSpanUnderline);
-    range.collapse(true);
+function setUnderline() {
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+
+  const range = selection.getRangeAt(0);
+
+  if (!selection.isCollapsed) {
+    const nodo = range.commonAncestorContainer;
+    const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
+    const yaTiene = spanPadre.closest("span[style*='text-decoration: underline']") ||
+                    spanPadre.closest("u");
+
+    if (yaTiene) {
+      const textoSinEstilo = document.createTextNode(range.toString());
+      range.deleteContents();
+      range.insertNode(textoSinEstilo);
+      underlineBtn.classList.remove("active");
+      activeSpanUnderline = null;
+      underlineManual = false;
+    } else {
+      const span = document.createElement("span");
+      span.style.textDecoration = "underline";
+      const contenido = range.extractContents();
+      span.appendChild(contenido);
+      range.insertNode(span);
+      activeSpanUnderline = span;
+      underlineBtn.classList.add("active");
+      underlineManual = false;
+    }
 
     selection.removeAllRanges();
     selection.addRange(range);
 
     activeSpanUnderline = null;
   } else {
-    underlineBtn.classList.add("active")
-    
-    if (!activeSpanUnderline){
+    if (underlineBtn.classList.contains("active")) {
+      underlineManual = false;
+      underlineBtn.classList.remove("active");
+
+      if (activeSpanUnderline) {
+        const r = selection.getRangeAt(0);
+        r.setStartAfter(activeSpanUnderline);
+        r.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(r);
+        activeSpanUnderline = null;
+      }
+    } else {
+      underlineManual = true;
+      underlineBtn.classList.add("active");
+
       activeSpanUnderline = document.createElement("span");
       activeSpanUnderline.style.textDecoration = "underline";
 
-      const selection = window.getSelection();
-      const range = selection.getRangeAt(0);
-
-      range.insertNode(activeSpanUnderline);
-      range.setStart(activeSpanUnderline, 0);
-      range.collapse(true);
+      const r = selection.getRangeAt(0);
+      r.insertNode(activeSpanUnderline);
+      r.setStart(activeSpanUnderline, 0);
+      r.collapse(true);
 
       selection.removeAllRanges();
-      selection.addRange(range);
+      selection.addRange(r);
     }
   }
 }
+
+//ALINEAR TEXTOS
+function alinearTexto(alineacion) {
+  // Detecto que tiene seleccionado el usuario con el mouse 
+  const seleccion = window.getSelection();
+  if (seleccion.rangeCount > 0){
+    // Obtengo el rango de donde hasta donde selecciono
+    const rango = seleccion.getRangeAt(0);
+    // Obtengo el contenedor del texto seleccionado
+    let contenedor = rango.commonAncestorContainer;
+    // Si lo que seleccionamos es texto puro, subimos al elemento padre
+    if (contenedor.nodeType === Node.TEXT_NODE) {
+      contenedor = contenedor.parentElement;
+    }
+    // Buscamos el editor más cercano (ya sea el título o el párrafo)
+    const editor = contenedor.closest('[contenteditable="true"]');
+    if (editor) {
+      // Aplicamos el estilo directamente al elemento
+      // alineacion puede ser: 'left', 'center', 'right'
+      editor.style.textAlign = alineacion;
+    }
+  }
+}
+
+// Botones De Alineacion
+const btnAlignIzq = document.querySelector("#btn-align-izquierda");
+const btnAlignCen = document.querySelector("#btn-align-centro");
+const btnAlignDer = document.querySelector("#btn-align-derecha");
+
+// Array Para Manejar El Active De Un Solo Boton A La Vez
+const botonesAlineacion = [btnAlignIzq, btnAlignCen, btnAlignDer];
+
+// Alinear Izquierda
+btnAlignIzq.addEventListener("click", () => {
+  // Desactivá todos antes de activar el clickeado
+  botonesAlineacion.forEach(b => b.classList.remove("active"));
+  btnAlignIzq.classList.add("active");
+  alinearTexto("left");
+});
+
+// Alinear Centro
+btnAlignCen.addEventListener("click", () => {
+  // Desactivá todos antes de activar el clickeado
+  botonesAlineacion.forEach(b => b.classList.remove("active"));
+  btnAlignCen.classList.add("active");
+  alinearTexto("center");
+});
+
+// Alinear Derecha
+btnAlignDer.addEventListener("click", () => {
+  // Desactivá todos antes de activar el clickeado
+  botonesAlineacion.forEach(b => b.classList.remove("active"));
+  btnAlignDer.classList.add("active");
+  alinearTexto("right");
+});
+// FIN ALINEAR TEXTOS
+
+// Deteccion Estilos Al Seleccionar
+document.addEventListener("selectionchange", () => {
+  const selection = window.getSelection();
+
+  if (!selection.rangeCount || selection.isCollapsed) {
+    if (!boldManual) boldBtn.classList.remove("active");
+    if (!italicManual) italicBtn.classList.remove("active");
+    if (!underlineManual) underlineBtn.classList.remove("active");
+    return;
+  }
+
+  const range = selection.getRangeAt(0);
+  const nodo = range.commonAncestorContainer;
+  const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
+
+  const tieneBold = spanPadre.closest("span[style*='font-weight: bold']") ||
+                    spanPadre.closest("b") || spanPadre.closest("strong");
+  tieneBold ? boldBtn.classList.add("active") : boldBtn.classList.remove("active");
+
+  const tieneItalic = spanPadre.closest("span[style*='font-style: italic']") ||
+                      spanPadre.closest("i") || spanPadre.closest("em");
+  tieneItalic ? italicBtn.classList.add("active") : italicBtn.classList.remove("active");
+
+  const tieneUnderline = spanPadre.closest("span[style*='text-decoration: underline']") ||
+                         spanPadre.closest("u");
+  tieneUnderline ? underlineBtn.classList.add("active") : underlineBtn.classList.remove("active");
+
+});
+// Fin Deteccion Estilos Al Seleccionar
+
 // FIN FUNCION APLICAR ESTILOS
 
 /// FUNCION TAMAÑO
@@ -406,11 +628,26 @@ sizeBtns.forEach((btn, index) => {
 // FUNCION COLOR TEXTOS
 const picker = document.getElementById("selector-color");
 const texto = document.getElementById("color-actual");
+let activeSpanColor = null;
+let colorManual = false;
+let savedRange = null;
+
+// Escuchamos 'pointerdown' (que ocurre antes del clic normal).
+// Esto sirve para guardar DÓNDE estaba el cursor parpadeando ANTES de que
+// se abra el menú de colores y el editor pierda el foco por completo.
+picker.addEventListener("pointerdown", () => {
+  const seleccion = window.getSelection();
+  if (seleccion.rangeCount > 0) {
+    savedRange = seleccion.getRangeAt(0).cloneRange();
+  }
+});
 
 picker.addEventListener("input", () => {
   texto.style.color = picker.value;
   texto.textContent = picker.value;
   texto.textContent = texto.textContent.toUpperCase();
+
+  setColorFont();
 
   if (document.body.classList.contains("dark-mode")) {
     if (esColorOscuro(picker.value)) {
@@ -421,7 +658,34 @@ picker.addEventListener("input", () => {
       texto.style.color = "#000000"
     }
   }
+});
 
+// Evento 'change' ocurre cuando el usuario confirma el color y cierra la paleta.
+picker.addEventListener("change", () => {
+  if (savedRange) {
+    // Buscamos el editor de texto basándonos en dónde estaba el cursor antes.
+    const node = savedRange.commonAncestorContainer;
+    let editor = null;
+    
+    // nodeType === Node.TEXT_NODE (3) significa que es texto puro, por ende buscamos en su elemento "padre"
+    // Node.ELEMENT_NODE (1) significa que es una etiqueta HTML (ej: un span, un div)
+    if (node.nodeType === Node.TEXT_NODE) {
+      editor = node.parentElement.closest('[contenteditable="true"]');
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      editor = node.closest('[contenteditable="true"]');
+    }
+
+    // Le devolvemos el "foco" al editor automáticamente para evitar que el usuario 
+    // tenga que hacer clic y mover accidentalmente el cursor fuera del <span> que acabamos de crear.
+    if (editor) {
+      editor.focus();
+    }
+    
+    // Restauramos el cursor exactamente a la posición donde lo dejamos.
+    const seleccion = window.getSelection();
+    seleccion.removeAllRanges();
+    seleccion.addRange(savedRange);
+  }
 });
 
 //Comprobacion Color Claro
@@ -448,6 +712,85 @@ function esColorOscuro(hex) {
 //Fin Comprobacion Color Oscuro
 // FIN FUNCION COLOR TEXTOS
 
+// Funcion que cambia el color de la fuente
+function setColorFont(){
+  // Obtengo el texto seleccionado con el mouse
+  let seleccion = window.getSelection();
+
+  // Si no hay rango seleccionado, intentamos recuperar el que guardamos en 'pointerdown'
+  if (!seleccion.rangeCount && savedRange) {
+    seleccion.removeAllRanges();
+    seleccion.addRange(savedRange);
+  }
+
+  // Si no hay texto seleccionado, salgo de la función
+  if (!seleccion.rangeCount) return;
+  // 
+  const rango = seleccion.getRangeAt(0);
+  const color = picker.value; // Obtiene el color del picker
+ 
+  if (!seleccion.isCollapsed) {
+    // Hay texto seleccionado.
+    // Si ya le habíamos puesto color y el usuario sigue arrastrando el selector, 
+    // simplemente le cambiamos el color al mismo span para no crear spans duplicados.
+    if (activeSpanColor && (rango.commonAncestorContainer === activeSpanColor || rango.commonAncestorContainer.parentElement === activeSpanColor)) {
+      activeSpanColor.style.color = color;
+      return;
+    }
+
+    // Creamos el span que envolverá al texto seleccionado.
+    const span = document.createElement("span");
+    span.style.color = color;
+    const contenido = rango.extractContents();
+    span.appendChild(contenido);
+    rango.insertNode(span);
+    
+    // Volvemos a seleccionar el span recién creado para que si el usuario sigue arrastrando el color,
+    // el código se dé cuenta de que seguimos editando el mismo pedazo de texto.
+    seleccion.removeAllRanges();
+    const newRange = document.createRange();
+    newRange.selectNodeContents(span);
+    seleccion.addRange(newRange);
+    
+    activeSpanColor = span;
+  }else {
+    // Sin texto seleccionado - modo escritura (cursor parpadeando)
+    
+    // Verificamos si el cursor sigue adentro del span vacío que creamos.
+    const isCursorInsideActiveSpan = activeSpanColor && (
+      rango.startContainer === activeSpanColor ||
+      rango.startContainer.parentElement === activeSpanColor ||
+      rango.startContainer.parentNode === activeSpanColor
+    );
+
+    // Si ya creamos un span vacío con el "espacio invisible" y el cursor sigue ahí, 
+    // solo le actualizamos el color en vez de crear otro span.
+    if (isCursorInsideActiveSpan && activeSpanColor.innerHTML === '\u200B') {
+      activeSpanColor.style.color = color;
+      return;
+    }
+
+    // Creamos un span nuevo
+    activeSpanColor = document.createElement("span");
+    activeSpanColor.style.color = color;
+    // '\u200B' es un "Zero-width space" (espacio de ancho nulo).
+    // Es un truco muy común: los navegadores ignoran los spans 100% vacíos cuando tipeás,
+    // pero si ponemos este caracter invisible, obligamos al navegador a mantener el cursor adentro.
+    activeSpanColor.innerHTML = '\u200B';
+
+    rango.insertNode(activeSpanColor);
+    // Ponemos el cursor justo después del caracter invisible (en la posición 1 del text node)
+    rango.setStart(activeSpanColor.firstChild, 1);
+    rango.collapse(true);
+
+    // Limpiamos y aplicamos esta nueva posición del cursor
+    seleccion.removeAllRanges();
+    seleccion.addRange(rango);
+
+    // Actualizamos nuestro rango guardado por si cierra el color picker ahora mismo
+    savedRange = rango.cloneRange();
+  }
+}
  
 // OCULTAR BARRA
 const zonaOcultar = document.getElementById("zona-ocultar-barra");
