@@ -461,6 +461,7 @@ document.addEventListener("selectionchange", () => {
   const tieneUnderline = spanPadre.closest("span[style*='text-decoration: underline']") ||
                          spanPadre.closest("u");
   tieneUnderline ? underlineBtn.classList.add("active") : underlineBtn.classList.remove("active");
+
 });
 // Fin Deteccion Estilos Al Seleccionar
 
@@ -565,11 +566,26 @@ sizeBtns.forEach((btn, index) => {
 // FUNCION COLOR TEXTOS
 const picker = document.getElementById("selector-color");
 const texto = document.getElementById("color-actual");
+let activeSpanColor = null;
+let colorManual = false;
+let savedRange = null;
+
+// Escuchamos 'pointerdown' (que ocurre antes del clic normal).
+// Esto sirve para guardar DÓNDE estaba el cursor parpadeando ANTES de que
+// se abra el menú de colores y el editor pierda el foco por completo.
+picker.addEventListener("pointerdown", () => {
+  const seleccion = window.getSelection();
+  if (seleccion.rangeCount > 0) {
+    savedRange = seleccion.getRangeAt(0).cloneRange();
+  }
+});
 
 picker.addEventListener("input", () => {
   texto.style.color = picker.value;
   texto.textContent = picker.value;
   texto.textContent = texto.textContent.toUpperCase();
+
+  setColorFont();
 
   if (document.body.classList.contains("dark-mode")) {
     if (esColorOscuro(picker.value)) {
@@ -581,6 +597,34 @@ picker.addEventListener("input", () => {
     }
   }
 
+});
+
+// Evento 'change' ocurre cuando el usuario confirma el color y cierra la paleta.
+picker.addEventListener("change", () => {
+  if (savedRange) {
+    // Buscamos el editor de texto basándonos en dónde estaba el cursor antes.
+    const node = savedRange.commonAncestorContainer;
+    let editor = null;
+    
+    // nodeType === Node.TEXT_NODE (3) significa que es texto puro, por ende buscamos en su elemento "padre"
+    // Node.ELEMENT_NODE (1) significa que es una etiqueta HTML (ej: un span, un div)
+    if (node.nodeType === Node.TEXT_NODE) {
+      editor = node.parentElement.closest('[contenteditable="true"]');
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      editor = node.closest('[contenteditable="true"]');
+    }
+
+    // Le devolvemos el "foco" al editor automáticamente para evitar que el usuario 
+    // tenga que hacer clic y mover accidentalmente el cursor fuera del <span> que acabamos de crear.
+    if (editor) {
+      editor.focus();
+    }
+    
+    // Restauramos el cursor exactamente a la posición donde lo dejamos.
+    const seleccion = window.getSelection();
+    seleccion.removeAllRanges();
+    seleccion.addRange(savedRange);
+  }
 });
 
 //Comprobacion Color Claro
@@ -607,6 +651,85 @@ function esColorOscuro(hex) {
 //Fin Comprobacion Color Oscuro
 // FIN FUNCION COLOR TEXTOS
 
+// Funcion que cambia el color de la fuente
+function setColorFont(){
+  // Obtengo el texto seleccionado con el mouse
+  let seleccion = window.getSelection();
+
+  // Si no hay rango seleccionado, intentamos recuperar el que guardamos en 'pointerdown'
+  if (!seleccion.rangeCount && savedRange) {
+    seleccion.removeAllRanges();
+    seleccion.addRange(savedRange);
+  }
+
+  // Si no hay texto seleccionado, salgo de la función
+  if (!seleccion.rangeCount) return;
+  // 
+  const rango = seleccion.getRangeAt(0);
+  const color = picker.value; // Obtiene el color del picker
+ 
+  if (!seleccion.isCollapsed) {
+    // Hay texto seleccionado.
+    // Si ya le habíamos puesto color y el usuario sigue arrastrando el selector, 
+    // simplemente le cambiamos el color al mismo span para no crear spans duplicados.
+    if (activeSpanColor && (rango.commonAncestorContainer === activeSpanColor || rango.commonAncestorContainer.parentElement === activeSpanColor)) {
+      activeSpanColor.style.color = color;
+      return;
+    }
+
+    // Creamos el span que envolverá al texto seleccionado.
+    const span = document.createElement("span");
+    span.style.color = color;
+    const contenido = rango.extractContents();
+    span.appendChild(contenido);
+    rango.insertNode(span);
+    
+    // Volvemos a seleccionar el span recién creado para que si el usuario sigue arrastrando el color,
+    // el código se dé cuenta de que seguimos editando el mismo pedazo de texto.
+    seleccion.removeAllRanges();
+    const newRange = document.createRange();
+    newRange.selectNodeContents(span);
+    seleccion.addRange(newRange);
+    
+    activeSpanColor = span;
+  }else {
+    // Sin texto seleccionado - modo escritura (cursor parpadeando)
+    
+    // Verificamos si el cursor sigue adentro del span vacío que creamos.
+    const isCursorInsideActiveSpan = activeSpanColor && (
+      rango.startContainer === activeSpanColor ||
+      rango.startContainer.parentElement === activeSpanColor ||
+      rango.startContainer.parentNode === activeSpanColor
+    );
+
+    // Si ya creamos un span vacío con el "espacio invisible" y el cursor sigue ahí, 
+    // solo le actualizamos el color en vez de crear otro span.
+    if (isCursorInsideActiveSpan && activeSpanColor.innerHTML === '\u200B') {
+      activeSpanColor.style.color = color;
+      return;
+    }
+
+    // Creamos un span nuevo
+    activeSpanColor = document.createElement("span");
+    activeSpanColor.style.color = color;
+    // '\u200B' es un "Zero-width space" (espacio de ancho nulo).
+    // Es un truco muy común: los navegadores ignoran los spans 100% vacíos cuando tipeás,
+    // pero si ponemos este caracter invisible, obligamos al navegador a mantener el cursor adentro.
+    activeSpanColor.innerHTML = '\u200B';
+
+    rango.insertNode(activeSpanColor);
+    // Ponemos el cursor justo después del caracter invisible (en la posición 1 del text node)
+    rango.setStart(activeSpanColor.firstChild, 1);
+    rango.collapse(true);
+
+    // Limpiamos y aplicamos esta nueva posición del cursor
+    seleccion.removeAllRanges();
+    seleccion.addRange(rango);
+
+    // Actualizamos nuestro rango guardado por si cierra el color picker ahora mismo
+    savedRange = rango.cloneRange();
+  }
+}
  
 // OCULTAR BARRA
 const zonaOcultar = document.getElementById("zona-ocultar-barra");
