@@ -28,7 +28,6 @@ Desarrollado como proyecto central para la cátedra de Programación III en la U
 
 **Recursos Externos**:
 - [Google Fonts](https://fonts.google.com/) - Tipografía Lato
-- [RemixIcon](https://remixicon.com/) - Iconografía
 - [Font Awesome 6.5](https://fontawesome.com/) - Iconografía
 
 ## 🚀 Instalación y Primeros Pasos
