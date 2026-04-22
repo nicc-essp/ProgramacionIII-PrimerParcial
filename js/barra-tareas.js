@@ -235,6 +235,8 @@ let boldManual = false;
 boldBtn.addEventListener("click", () => setBold());
 
 function setBold() {
+  if (activeSpanItalic || italicManual || activeSpanUnderline || underlineManual) return;
+
   const selection = window.getSelection();
   if (!selection.rangeCount) return;
 
@@ -306,6 +308,8 @@ let italicManual = false;
 italicBtn.addEventListener("click", () => setItalic());
 
 function setItalic() {
+  if (activeSpanBold || boldManual || activeSpanUnderline || underlineManual) return;
+
   const selection = window.getSelection();
   if (!selection.rangeCount) return;
 
@@ -377,6 +381,8 @@ let underlineManual = false;
 underlineBtn.addEventListener("click", () => setUnderline());
 
 function setUnderline() {
+  if (activeSpanBold || boldManual || activeSpanItalic || italicManual) return;
+
   const selection = window.getSelection();
   if (!selection.rangeCount) return;
 
