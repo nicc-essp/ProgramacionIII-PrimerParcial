@@ -435,6 +435,33 @@ function setUnderline() {
   }
 }
 
+function alinearTexto(alineacion) {
+  // Detecto que tiene seleccionado el usuario con el mouse 
+  const seleccion = window.getSelection();
+  if (seleccion.rangeCount > 0){
+    // Obtengo el rango de donde hasta donde selecciono
+    const rango = seleccion.getRangeAt(0);
+    // Obtengo el contenedor del texto seleccionado
+    let contenedor = rango.commonAncestorContainer;
+    // Si lo que seleccionamos es texto puro, subimos al elemento padre
+    if (contenedor.nodeType === Node.TEXT_NODE) {
+      contenedor = contenedor.parentElement;
+    }
+    // Buscamos el editor más cercano (ya sea el título o el párrafo)
+    const editor = contenedor.closest('[contenteditable="true"]');
+    if (editor) {
+      // Aplicamos el estilo directamente al elemento
+      // alineacion puede ser: 'left', 'center', 'right'
+      editor.style.textAlign = alineacion;
+    }
+  }
+}
+
+document.querySelector(".btn-izquierda").addEventListener("click",() => alinearTexto("left"));
+document.querySelector(".btn-centro").addEventListener("click", () => alinearTexto("center"));
+document.querySelector(".btn-derecha").addEventListener("click", () => alinearTexto("right"));
+
+
 // Deteccion Estilos Al Seleccionar
 document.addEventListener("selectionchange", () => {
   const selection = window.getSelection();
