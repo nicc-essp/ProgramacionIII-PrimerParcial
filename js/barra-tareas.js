@@ -266,7 +266,9 @@ function setBold() {
     }
 
     selection.removeAllRanges();
+    selection.addRange(range);
 
+    activeSpanBold = null;
   } else {
     if (boldBtn.classList.contains("active")) {
       boldManual = false;
@@ -335,7 +337,9 @@ function setItalic() {
     }
 
     selection.removeAllRanges();
+    selection.addRange(range);
 
+    activeSpanItalic = null;
   } else {
     if (italicBtn.classList.contains("active")) {
       italicManual = false;
@@ -403,7 +407,9 @@ function setUnderline() {
     }
 
     selection.removeAllRanges();
+    selection.addRange(range);
 
+    activeSpanUnderline = null;
   } else {
     if (underlineBtn.classList.contains("active")) {
       underlineManual = false;
