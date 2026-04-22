@@ -189,6 +189,42 @@ boldBtn.addEventListener("mousedown", (e) => e.preventDefault());
 italicBtn.addEventListener("mousedown", (e) => e.preventDefault());
 underlineBtn.addEventListener("mousedown", (e) => e.preventDefault());
 
+const editorTitulo = document.querySelector(".editor-titulo");
+const editorParrafo = document.querySelector(".editor-parrafo");
+
+// Se eliminan variables y string activo de los botones al cambiar de foco para evitar desactivaciones a medias
+editorTitulo.addEventListener("blur", () => {
+  if (boldManual){
+    boldBtn.classList.remove("active");
+    boldManual = false;
+    activeSpanBold = null;
+  }
+  if (italicManual)
+    italicBtn.classList.remove("active");
+    italicManual = false;
+    activeSpanItalic = null;
+  if (underlineManual)
+    underlineBtn.classList.remove("active");
+    underlineManual = false;
+    activeSpanUnderline = null;
+});
+
+editorParrafo.addEventListener("blur", () => {
+  if (boldManual){
+    boldBtn.classList.remove("active");
+    boldManual = false;
+    activeSpanBold = null;
+  }
+  if (italicManual)
+    italicBtn.classList.remove("active");
+    italicManual = false;
+    activeSpanItalic = null;
+  if (underlineManual)
+    underlineBtn.classList.remove("active");
+    underlineManual = false;
+    activeSpanUnderline = null;
+});
+
 // Helpers
 function tieneEstilo(spanPadre, propiedad, valor) {
   return spanPadre.closest(`span[style*='${propiedad}: ${valor}']`);
