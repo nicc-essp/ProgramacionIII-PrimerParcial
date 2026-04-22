@@ -435,6 +435,7 @@ function setUnderline() {
   }
 }
 
+//ALINEAR TEXTOS
 function alinearTexto(alineacion) {
   // Detecto que tiene seleccionado el usuario con el mouse 
   const seleccion = window.getSelection();
@@ -457,10 +458,38 @@ function alinearTexto(alineacion) {
   }
 }
 
-document.querySelector(".btn-izquierda").addEventListener("click",() => alinearTexto("left"));
-document.querySelector(".btn-centro").addEventListener("click", () => alinearTexto("center"));
-document.querySelector(".btn-derecha").addEventListener("click", () => alinearTexto("right"));
+// Botones De Alineacion
+const btnAlignIzq = document.querySelector("#btn-align-izquierda");
+const btnAlignCen = document.querySelector("#btn-align-centro");
+const btnAlignDer = document.querySelector("#btn-align-derecha");
 
+// Array Para Manejar El Active De Un Solo Boton A La Vez
+const botonesAlineacion = [btnAlignIzq, btnAlignCen, btnAlignDer];
+
+// Alinear Izquierda
+btnAlignIzq.addEventListener("click", () => {
+  // Desactivá todos antes de activar el clickeado
+  botonesAlineacion.forEach(b => b.classList.remove("active"));
+  btnAlignIzq.classList.add("active");
+  alinearTexto("left");
+});
+
+// Alinear Centro
+btnAlignCen.addEventListener("click", () => {
+  // Desactivá todos antes de activar el clickeado
+  botonesAlineacion.forEach(b => b.classList.remove("active"));
+  btnAlignCen.classList.add("active");
+  alinearTexto("center");
+});
+
+// Alinear Derecha
+btnAlignDer.addEventListener("click", () => {
+  // Desactivá todos antes de activar el clickeado
+  botonesAlineacion.forEach(b => b.classList.remove("active"));
+  btnAlignDer.classList.add("active");
+  alinearTexto("right");
+});
+// FIN ALINEAR TEXTOS
 
 // Deteccion Estilos Al Seleccionar
 document.addEventListener("selectionchange", () => {
@@ -623,7 +652,6 @@ picker.addEventListener("input", () => {
       texto.style.color = "#000000"
     }
   }
-
 });
 
 // Evento 'change' ocurre cuando el usuario confirma el color y cierra la paleta.
