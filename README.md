@@ -46,7 +46,7 @@ Desarrollado como proyecto central para la cátedra de Programación III en la U
    ```
 
 2. **Abrir la aplicación**:
-   - Opción 1: Hacer doble clic en `index.html`
+   - Hacer doble clic en `index.html`
 
 ## 👥 Integrantes - Grupo 19 
 - [@fedeheinrich](https://github.com/fedeheinrich) - Federico Heinrich
