@@ -19,7 +19,7 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 | Barra de herramientas basica(Fuente, Tamaño, Negrita, Cursiva, Alineación) | Obligatorio | Listo 🟢 |
 | Area de texto | Obligatorio | Listo 🟢 |
 | Gestión de archivos (.txt / .md: Crear, Abrir, Guardar) | Alta | Pendiente 🔴 |
-| Diseño Responsivo | Alta | Pendiente 🔴 |
+| Diseño Responsivo | Alta | En Desarrollo 🟡 |
 | Autoguardado local | Alta | Pendiente 🔴 |
 | Modo Oscuro | Media | Listo 🟢 |
 | Modo Cuidado Visual | Media | Listo 🟢 |
