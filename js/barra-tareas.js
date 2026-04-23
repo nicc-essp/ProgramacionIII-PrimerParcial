@@ -375,12 +375,15 @@ function setItalic() {
   }
 }
 
-// Underline
+// Estados globales
 let activeSpanUnderline = null;
 let underlineManual = false;
+
+// Evento
 underlineBtn.addEventListener("click", () => setUnderline());
 
 function setUnderline() {
+  // Evitar conflictos: no permitir activar subrayado si ya estoy en modo manual de negrita o cursiva, o viceversa
   if (activeSpanBold || boldManual || activeSpanItalic || italicManual) return;
 
   const selection = window.getSelection();
@@ -388,63 +391,85 @@ function setUnderline() {
 
   const range = selection.getRangeAt(0);
 
+  //Si hay texto seleccionado, aplicamos o quitamos el subrayado solo a ese texto, sin afectar el modo manual ni otras partes del texto.
   if (!selection.isCollapsed) {
     const nodo = range.commonAncestorContainer;
     const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
-    const yaTiene = spanPadre.closest("span[style*='text-decoration: underline']") ||
-                    spanPadre.closest("u");
+    
+    // Verificamos si ya está subrayado
+    const yaTiene = spanPadre.closest("span[style*='text-decoration: underline'], u");
 
     if (yaTiene) {
-      const textoSinEstilo = document.createTextNode(range.toString());
-      range.deleteContents();
-      range.insertNode(textoSinEstilo);
-      underlineBtn.classList.remove("active");
-      activeSpanUnderline = null;
-      underlineManual = false;
+      // Si ya tiene, usamos nuestra función de quitar
+      quitUnderLine();
     } else {
+      // Si no tiene, aplicamos el nuevo span
       const span = document.createElement("span");
       span.style.textDecoration = "underline";
-      const contenido = range.extractContents();
-      span.appendChild(contenido);
+      
+      // Usamos extractContents para mover el contenido al span
+      span.appendChild(range.extractContents());
       range.insertNode(span);
-      activeSpanUnderline = span;
+      
       underlineBtn.classList.add("active");
-      underlineManual = false;
     }
 
     selection.removeAllRanges();
-    selection.addRange(range);
-
-    activeSpanUnderline = null;
-  } else {
+  } 
+  
+  // CASO B: Si no hay texto seleccionado, el botón de subrayado actúa como un toggle para un "modo escritura subrayada".
+  else {
     if (underlineBtn.classList.contains("active")) {
-      underlineManual = false;
-      underlineBtn.classList.remove("active");
-
-      if (activeSpanUnderline) {
-        const r = selection.getRangeAt(0);
-        r.setStartAfter(activeSpanUnderline);
-        r.collapse(true);
-        selection.removeAllRanges();
-        selection.addRange(r);
-        activeSpanUnderline = null;
-      }
+      quitUnderLine(); // Apagamos el modo manual
     } else {
+      // Activamos modo manual
       underlineManual = true;
       underlineBtn.classList.add("active");
 
       activeSpanUnderline = document.createElement("span");
       activeSpanUnderline.style.textDecoration = "underline";
+      activeSpanUnderline.innerHTML = "&#xFEFF;"; // Carácter invisible para que el span no colapse
 
-      const r = selection.getRangeAt(0);
-      r.insertNode(activeSpanUnderline);
-      r.setStart(activeSpanUnderline, 0);
-      r.collapse(true);
-
+      range.insertNode(activeSpanUnderline);
+      range.setStart(activeSpanUnderline, 1); // Ponemos el cursor dentro del span
+      range.collapse(true);
       selection.removeAllRanges();
-      selection.addRange(r);
+      selection.addRange(range);
     }
   }
+}
+
+function quitUnderLine() {
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+
+  const range = selection.getRangeAt(0);
+  
+  if (!selection.isCollapsed) {
+    // Si hay selección, buscamos el ancestro para "desenvolverlo"
+    const nodo = range.commonAncestorContainer;
+    const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
+    const yaTiene = spanPadre.closest("span[style*='text-decoration: underline'], u");
+
+    if (yaTiene) {
+      // Reemplazamos el span por su propio contenido de texto sin formato
+      const texto = document.createTextNode(yaTiene.textContent);
+      yaTiene.parentNode.replaceChild(texto, yaTiene);
+    }
+  } else {
+    // Si es modo manual, simplemente saltamos fuera del span actual
+    if (activeSpanUnderline) {
+      range.setStartAfter(activeSpanUnderline);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  }
+
+  // Reset de estados
+  underlineBtn.classList.remove("active");
+  underlineManual = false;
+  activeSpanUnderline = null;
 }
 
 //ALINEAR TEXTOS
