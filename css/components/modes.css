@@ -31,6 +31,10 @@
     color: #f3f4f6;
   }
 
+  .dark-mode #selector-alineacion i {
+    color: #f3f4f6;
+  }
+
   .dark-mode #color-picker p {
     color: #f3f4f6;
   }
@@ -44,7 +48,7 @@
   }
 
   .dark-mode .editor-titulo {
-    color: #52535e;
+    color: #F7F8FB;
   }
   
   .dark-mode .editor-parrafo {

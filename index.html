@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="es-AR">
-
-<html>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,26 +16,21 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
         >
-        <link rel="icon" href="./assets/img/logo-blanco.png" />
+        <link id="favicon-claro" rel="icon" href="./assets/favicon/favicon-claro.ico" type="image/x-icon" media="(prefers-color-scheme: dark)">
+        <link id="favicon-dark" rel="icon" href="./assets/favicon/favicon-dark.ico" type="image/x-icon" media="(prefers-color-scheme: light)">
+
         <link rel="stylesheet" href="./css/index.css" />
         <link rel="stylesheet" href="./css/components/header.css" />
         <link rel="stylesheet" href="./css/components/barra-tareas.css" />
         <link rel="stylesheet" href="./css/components/hojas.css" />
         <link rel="stylesheet" href="./css/components/textos.css" />
         <link rel="stylesheet" href="./css/components/modes.css" />
-    </head>
+    </head>  
 
     <body>
 
         <!-- HEADER -->
         <header class="header">
-            <div id="header-izquierdo">
-                <i class="fa-solid fa-bars-staggered" id="icon-menu"></i>
-                <!-- Oculto -->
-                <i class="fa-solid fa-bars" id="icon-menu-hover"></i>
-
-            </div>
-
             <div id="header-centro">
                 <img src="/assets/img/logo-completo.png" alt="Logo TexteAR" id="logo-header">
             </div>
@@ -76,6 +69,15 @@
                         <i class="fa-solid fa-text-height" id="size1"></i>
                         <i class="fa-solid fa-text-height active" id="size2"></i>
                         <i class="fa-solid fa-text-height" id="size3"></i>
+                    </div>
+
+                    <!-- DIVISOR -->
+                    <div id="divider"></div>
+
+                    <div id="selector-alineacion">
+                        <i class="fa-solid fa-align-left active" id="btn-align-izquierda"></i>
+                        <i class="fa-solid fa-align-center" id="btn-align-centro"></i>
+                        <i class="fa-solid fa-align-right" id="btn-align-derecha"></i>
                     </div>
 
                     <!-- DIVISOR -->
