@@ -489,8 +489,10 @@ function quitUnderLine() {
 
     if (yaTiene) {
       // Reemplazamos el span por su propio contenido de texto sin formato
-      const texto = document.createTextNode(yaTiene.textContent);
-      yaTiene.parentNode.replaceChild(texto, yaTiene);
+      const texto = document.createTextNode(yaTiene.innerHTML);
+      const spanHTML = document.createElement("span");
+      spanHTML.innerHTML = texto.textContent;
+      yaTiene.parentNode.replaceChild(spanHTML, yaTiene);
     }
   } else {
     // Si es modo manual, simplemente saltamos fuera del span actual
