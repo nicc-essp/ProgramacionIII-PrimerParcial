@@ -590,101 +590,21 @@ document.addEventListener("selectionchange", () => {
 
 // FIN FUNCION APLICAR ESTILOS
 
-/// FUNCION TAMAÑO
-const size1Btn = document.getElementById("size1");
-const size2Btn = document.getElementById("size2");
-const size3Btn = document.getElementById("size3");
+// FUNCION TAMAÑOS TEXTOS
+const botones = document.querySelectorAll("#selector-tamaño i");
 
-const sizeBtns = [size1Btn, size2Btn, size3Btn];
-const sizes = ["13px", "18px", "25px"];
 
-let activeSpanSize = null;
-
-function setFontSize(size) {
-  const selection = window.getSelection();
-  if (!selection.rangeCount) return;
-
-  const range = selection.getRangeAt(0);
-
-  if (!selection.isCollapsed) {
-    const contenedor = range.commonAncestorContainer;
-    const spanPadre = contenedor.nodeType === 3
-      ? contenedor.parentElement
-      : contenedor;
-
-    const yaTieneTamaño = spanPadre.closest("span[style*='font-size']");
-
-    if (yaTieneTamaño) {
-      if (yaTieneTamaño.style.fontSize === size) {
-        const texto = document.createTextNode(yaTieneTamaño.innerText);
-        yaTieneTamaño.replaceWith(texto);
-        return;
-      }
-      yaTieneTamaño.style.fontSize = size;
-      return;
-    }
-
-    const spanSize = document.createElement("span");
-    spanSize.style.fontSize = size;
-
-    const contenidoSeleccionado = range.extractContents();
-    spanSize.appendChild(contenidoSeleccionado);
-    range.insertNode(spanSize);
-
-    selection.removeAllRanges();
-
-  } else {
-    if (activeSpanSize) {
-      const range = selection.getRangeAt(0);
-      range.setStartAfter(activeSpanSize);
-      range.collapse(true);
-      selection.removeAllRanges();
-      selection.addRange(range);
-      activeSpanSize = null;
-    }
-
-    activeSpanSize = document.createElement("span");
-    activeSpanSize.style.fontSize = size;
-
-    const range2 = selection.getRangeAt(0);
-    range2.insertNode(activeSpanSize);
-    range2.setStart(activeSpanSize, 0);
-    range2.collapse(true);
-
-    selection.removeAllRanges();
-    selection.addRange(range2);
-  }
-}
-
-sizeBtns.forEach((btn, index) => {
+botones.forEach(btn => {
   btn.addEventListener("click", () => {
+    
+    // sacar active de todos
+    botones.forEach(b => b.classList.remove("active"));
 
-    if (btn.classList.contains("active")) {
-      btn.classList.remove("active");
-
-      const selection = window.getSelection();
-      if (selection.rangeCount && !selection.isCollapsed) {
-        const range = selection.getRangeAt(0);
-        const contenedor = range.commonAncestorContainer;
-        const spanPadre = contenedor.nodeType === 3
-          ? contenedor.parentElement
-          : contenedor;
-
-        const yaTieneTamaño = spanPadre.closest("span[style*='font-size']");
-        if (yaTieneTamaño) {
-          const texto = document.createTextNode(yaTieneTamaño.innerText);
-          yaTieneTamaño.replaceWith(texto);
-        }
-      }
-      return;
-    }
-
-    sizeBtns.forEach(b => b.classList.remove("active"));
+    // agregar al clickeado
     btn.classList.add("active");
-    setFontSize(sizes[index]);
   });
 });
-// FIN FUNCION TAMAÑO
+// FIN FUNCION TAMAÑOS TEXTOS
 
 // FUNCION COLOR TEXTOS
 const picker = document.getElementById("selector-color");
@@ -856,7 +776,7 @@ function setColorFont(){
 // OCULTAR BARRA
 const zonaOcultar = document.getElementById("zona-ocultar-barra");
 const txtOcultar = document.getElementById("txt-ocultar");
-const espacioHoja = document.querySelector(".espacio-hojas");
+const espacioHoja = document.querySelector(".espacio-hojas"); // puede ser null dependiendo de la página
 const recuperarTxt = document.getElementById("mostar-barra");
 
 let sobreZona = false;
@@ -874,7 +794,9 @@ document.addEventListener("mouseup", () => {
     resetBtn.classList.add("oculto");
     recuperarTxt.classList.add("mostrar");
     logo.classList.add("recuperar-barra");
-    espacioHoja.style.paddingTop = "0px";
+    if (espacioHoja) {
+      espacioHoja.style.paddingTop = "0px";
+    }
   }
 });
 
@@ -915,7 +837,9 @@ logo.addEventListener("click", () => {
     contenedor.classList.remove("oculto");
     resetBtn.classList.remove("oculto");
     recuperarTxt.classList.remove("mostrar");
-    espacioHoja.style.paddingTop = "80px";
+    if (espacioHoja) {
+      espacioHoja.style.paddingTop = "80px";
+    }
 
     resetPosicion()
   }
