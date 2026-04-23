@@ -281,14 +281,14 @@ function setBold() {
   if (!selection.isCollapsed) {
     const nodo = range.commonAncestorContainer;
     const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
-    const yaTiene = spanPadre.closest("span[style*='font-weight: bold']") ||
-                    spanPadre.closest("b") ||
-                    spanPadre.closest("strong");
+    const yaTiene = spanPadre.closest("[style*='bold'], b, strong");
 
     if (yaTiene) {
-      const textoSinEstilo = document.createTextNode(range.toString());
-      range.deleteContents();
-      range.insertNode(textoSinEstilo);
+      const texto = document.createTextNode(yaTiene.innerHTML);
+      const spanHTML = document.createElement("span");
+      spanHTML.innerHTML = texto.textContent;
+      yaTiene.parentNode.replaceChild(spanHTML, yaTiene);
+
       boldBtn.classList.remove("active");
       activeSpanBold = null;
       boldManual = false;
@@ -301,10 +301,10 @@ function setBold() {
       activeSpanBold = span;
       boldBtn.classList.add("active");
       boldManual = false;
-    }
 
-    selection.removeAllRanges();
-    selection.addRange(range);
+      // Mantenemos la selección limpia como en underline
+      selection.removeAllRanges();
+    }
 
     activeSpanBold = null;
   } else {
@@ -326,10 +326,11 @@ function setBold() {
 
       activeSpanBold = document.createElement("span");
       activeSpanBold.style.fontWeight = "bold";
+      activeSpanBold.innerHTML = "&#xFEFF;"; // Carácter invisible para que el span no colapse
 
       const r = selection.getRangeAt(0);
       r.insertNode(activeSpanBold);
-      r.setStart(activeSpanBold, 0);
+      r.setStart(activeSpanBold, 1); // Ponemos el cursor dentro del span
       r.collapse(true);
 
       selection.removeAllRanges();
@@ -354,14 +355,14 @@ function setItalic() {
   if (!selection.isCollapsed) {
     const nodo = range.commonAncestorContainer;
     const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
-    const yaTiene = spanPadre.closest("span[style*='font-style: italic']") ||
-                    spanPadre.closest("i") ||
-                    spanPadre.closest("em");
+    const yaTiene = spanPadre.closest("[style*='italic'], i, em");
 
     if (yaTiene) {
-      const textoSinEstilo = document.createTextNode(range.toString());
-      range.deleteContents();
-      range.insertNode(textoSinEstilo);
+      const texto = document.createTextNode(yaTiene.innerHTML);
+      const spanHTML = document.createElement("span");
+      spanHTML.innerHTML = texto.textContent;
+      yaTiene.parentNode.replaceChild(spanHTML, yaTiene);
+
       italicBtn.classList.remove("active");
       activeSpanItalic = null;
       italicManual = false;
@@ -374,10 +375,10 @@ function setItalic() {
       activeSpanItalic = span;
       italicBtn.classList.add("active");
       italicManual = false;
-    }
 
-    selection.removeAllRanges();
-    selection.addRange(range);
+      // Mantenemos la selección limpia como en underline
+      selection.removeAllRanges();
+    }
 
     activeSpanItalic = null;
   } else {
@@ -399,10 +400,11 @@ function setItalic() {
 
       activeSpanItalic = document.createElement("span");
       activeSpanItalic.style.fontStyle = "italic";
+      activeSpanItalic.innerHTML = "&#xFEFF;"; // Carácter invisible para que el span no colapse
 
       const r = selection.getRangeAt(0);
       r.insertNode(activeSpanItalic);
-      r.setStart(activeSpanItalic, 0);
+      r.setStart(activeSpanItalic, 1); // Ponemos el cursor dentro del span
       r.collapse(true);
 
       selection.removeAllRanges();
@@ -581,16 +583,13 @@ document.addEventListener("selectionchange", () => {
   const nodo = range.commonAncestorContainer;
   const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
 
-  const tieneBold = spanPadre.closest("span[style*='font-weight: bold']") ||
-                    spanPadre.closest("b") || spanPadre.closest("strong");
+  const tieneBold = spanPadre.closest("[style*='bold'], b, strong");
   tieneBold ? boldBtn.classList.add("active") : boldBtn.classList.remove("active");
 
-  const tieneItalic = spanPadre.closest("span[style*='font-style: italic']") ||
-                      spanPadre.closest("i") || spanPadre.closest("em");
+  const tieneItalic = spanPadre.closest("[style*='italic'], i, em");
   tieneItalic ? italicBtn.classList.add("active") : italicBtn.classList.remove("active");
 
-  const tieneUnderline = spanPadre.closest("span[style*='text-decoration: underline']") ||
-                         spanPadre.closest("u");
+  const tieneUnderline = spanPadre.closest("[style*='underline'], u");
   tieneUnderline ? underlineBtn.classList.add("active") : underlineBtn.classList.remove("active");
 
 });
