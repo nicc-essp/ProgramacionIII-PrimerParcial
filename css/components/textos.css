@@ -8,7 +8,7 @@
     outline: none; /* Quita el borde azul de enfoque */
     font-size: 2.3rem;
     line-height: 2;
-    color: #494b50d2;
+    color: var(--color-cuaternario);
     overflow: hidden;
     white-space: pre-wrap; /* Mantiene espacios y saltos de línea */
     word-wrap: break-word;
