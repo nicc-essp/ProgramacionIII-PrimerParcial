@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="es-AR">
-
-<html>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,21 +16,19 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
         >
-        <link rel="icon" href="./assets/img/logo-blanco.png" />
+        <link id="favicon-claro" rel="icon" href="./assets/favicon/favicon-claro.ico" type="image/x-icon" media="(prefers-color-scheme: dark)">
+        <link id="favicon-dark" rel="icon" href="./assets/favicon/favicon-dark.ico" type="image/x-icon" media="(prefers-color-scheme: light)">
+
         <link rel="stylesheet" href="./css/index.css" />
-        <link rel="stylesheet" href="./css/components/header.css" />
-        <link rel="stylesheet" href="./css/components/barra-tareas.css" />
-        <link rel="stylesheet" href="./css/components/hojas.css" />
-        <link rel="stylesheet" href="./css/components/textos.css" />
-        <link rel="stylesheet" href="./css/components/modes.css" />
-    </head>
+        <!-- Se importaron las modularizaciones desde index.css ya que es una mejor practica -->
+    </head>  
 
     <body>
 
         <!-- HEADER -->
         <header class="header">
             <div id="header-centro">
-                <img src="/assets/img/logo-completo.png" alt="Logo TexteAR" id="logo-header">
+                <img src="./assets/img/logo-completo.png" alt="Logo TexteAR" id="logo-header">
             </div>
 
             <div id="header-derecho">
@@ -125,7 +121,7 @@
              <!-- MOSTRAR BARRA DE TAREAS -->
              <div id="mostar-barra">
                 <i class="fa-solid fa-arrow-rotate-left" id="icon-mostrar"></i>
-                <p id="txt-mostrar">Hace click en nuestro logo para volver a mostrar la <strong>barra de tareas<strong></p>
+                <p id="txt-mostrar">Hace click en nuestro logo para volver a mostrar la <strong>barra de tareas</strong></p>
              </div>
  
         <!-- Boton Reset Posicion-->
@@ -138,10 +134,10 @@
  
          <!--SCRIPTS-->
          <!-- Modo Oscuro -->
-         <script src="/js/modes.js"></script>
+         <script src="./js/modes.js"></script>
           <!-- Barra De Tareas -->
-         <script src="/js/barra-tareas.js"></script>
+         <script src="./js/barra-tareas.js"></script>
          <!-- Hoja -->
-         <script src="/js/hojas.js"></script>
+         <script src="./js/hojas.js"></script>
     </body>
 </html>
