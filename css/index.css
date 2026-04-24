@@ -1,3 +1,9 @@
+@import "components/barra-tareas.css";
+@import "components/header.css";
+@import "components/hojas.css";
+@import "components/hoja.css";
+@import "components/textos.css";
+
 /* COLORES */
 :root{
   --color-primario: #ffffff;
