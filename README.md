@@ -21,6 +21,31 @@ Desarrollado como proyecto central para la cátedra de Programación III en la U
   - **Modo Oscuro**: Interfaz con tema oscuro para reducir fatiga visual
   - **Modo Cuidado Visual**: Protección adicional de la vista
 
+
+![Modo Clasico](https://github.com/user-attachments/assets/526f97b1-bec6-4d8b-9d74-769f2336b939)
+*Modo Clasico*
+
+<br>
+
+![Modo Oscuro](https://github.com/user-attachments/assets/ec045340-6e53-4486-a196-730288dd4750)
+*Modo Oscuro*
+
+<br>
+
+![Modo Cuidado de la vista](https://github.com/user-attachments/assets/198db25a-80c4-492c-b5f8-92e2b6132e8d)
+*Modo Cuidado de la vista*
+
+<br>
+
+![Modo Oscuro + Cuidado de la vista](https://github.com/user-attachments/assets/9fb0d070-29a4-4b3f-aaad-d5b47539c361)
+*Modo Oscuro + Cuidado de la vista*
+
+<br>
+
+https://github.com/user-attachments/assets/2bc5ce8c-ba87-4b7f-bbfe-a9c33c563aa3
+
+*Modo Inmersivo*
+
 ## 🛠️ Tecnologias Utilizadas 
     HTML5  
     CSS3  
