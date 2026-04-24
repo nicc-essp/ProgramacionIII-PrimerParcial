@@ -269,9 +269,11 @@ function aplicarEstilo(propiedad, valor) {
   }
 }
 
-// Bold
+// Estados globales Bold
 let activeSpanBold = null;
 let boldManual = false;
+
+// Evento
 boldBtn.addEventListener("click", () => setBold());
 
 function setBold() {
@@ -280,76 +282,38 @@ function setBold() {
 
   const range = selection.getRangeAt(0);
 
+  //Si hay texto seleccionado, aplicamos o quitamos el subrayado solo a ese texto, sin afectar el modo manual ni otras partes del texto.
   if (!selection.isCollapsed) {
     const nodo = range.commonAncestorContainer;
     const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
+    
+    // Verificamos si ya está en negrita
     const yaTiene = spanPadre.closest("[style*='bold'], b, strong");
 
     if (yaTiene) {
-      const texto = document.createTextNode(yaTiene.innerHTML);
-      const spanHTML = document.createElement("span");
-      spanHTML.innerHTML = texto.textContent;
-      yaTiene.parentNode.replaceChild(spanHTML, yaTiene);
-
-      boldBtn.classList.remove("active");
-      activeSpanBold = null;
-      boldManual = false;
+      // Si ya tiene, usamos nuestra función de quitar
+      quitBold();
     } else {
+      // Si no tiene, aplicamos el nuevo span
       const span = document.createElement("span");
       span.style.fontWeight = "bold";
-      const contenido = range.extractContents();
-      span.appendChild(contenido);
+      
+      // Usamos extractContents para mover el contenido al span
+      span.appendChild(range.extractContents());
       range.insertNode(span);
-      activeSpanBold = span;
+      
       boldBtn.classList.add("active");
-      boldManual = false;
-
-      // Mantenemos la selección limpia como en underline
-      selection.removeAllRanges();
     }
 
-    activeSpanBold = null;
-  } else {
+    selection.removeAllRanges();
+  } 
+  
+  // CASO B: Si no hay texto seleccionado, el botón de bold actúa como un toggle para un "modo escritura bold".
+  else {
     if (boldBtn.classList.contains("active")) {
-      boldManual = false;
-      boldBtn.classList.remove("active");
-
-      const r = selection.getRangeAt(0);
-      const nodo = r.commonAncestorContainer;
-      const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
-      const yaTiene = spanPadre.closest("[style*='bold'], b, strong");
-
-      const normalSpan = document.createElement("span");
-      normalSpan.style.fontWeight = "normal";
-      normalSpan.innerHTML = "&#xFEFF;";
-      
-      if (yaTiene) {
-        const rangeAfter = document.createRange();
-        rangeAfter.setStart(r.startContainer, r.startOffset);
-        rangeAfter.setEndAfter(yaTiene);
-        
-        const contentAfter = rangeAfter.extractContents();
-        yaTiene.after(normalSpan);
-        
-        const textLimpio = contentAfter.textContent.replace(/\uFEFF/g, '');
-        if (textLimpio.length > 0) {
-            const newBold = document.createElement("span");
-            newBold.style.fontWeight = "bold";
-            newBold.appendChild(contentAfter);
-            normalSpan.after(newBold);
-        }
-      } else {
-        r.insertNode(normalSpan);
-      }
-      
-      r.setStart(normalSpan.firstChild, 1);
-      r.collapse(true);
-      
-      selection.removeAllRanges();
-      selection.addRange(r);
-      
-      activeSpanBold = null;
+      quitBold(); // Apagamos el modo manual
     } else {
+      // Activamos modo manual
       boldManual = true;
       boldBtn.classList.add("active");
 
@@ -357,20 +321,81 @@ function setBold() {
       activeSpanBold.style.fontWeight = "bold";
       activeSpanBold.innerHTML = "&#xFEFF;"; // Carácter invisible para que el span no colapse
 
-      const r = selection.getRangeAt(0);
-      r.insertNode(activeSpanBold);
-      r.setStart(activeSpanBold.firstChild, 1); // Ponemos el cursor dentro del span
-      r.collapse(true);
-
+      range.insertNode(activeSpanBold);
+      range.setStart(activeSpanBold.firstChild, 1); // Ponemos el cursor dentro del span
+      range.collapse(true);
       selection.removeAllRanges();
-      selection.addRange(r);
+      selection.addRange(range);
     }
   }
 }
 
-// Italic
+function quitBold() {
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+
+  const range = selection.getRangeAt(0);
+  
+  if (!selection.isCollapsed) {
+    // Si hay selección, buscamos el ancestro para "desenvolverlo"
+    const nodo = range.commonAncestorContainer;
+    const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
+    const yaTiene = spanPadre.closest("[style*='bold'], b, strong");
+
+    if (yaTiene) {
+      // Reemplazamos el span por su propio contenido de texto sin formato
+      const texto = document.createTextNode(yaTiene.innerHTML);
+      const spanHTML = document.createElement("span");
+      spanHTML.innerHTML = texto.textContent;
+      yaTiene.parentNode.replaceChild(spanHTML, yaTiene);
+    }
+  } else {
+    // Si es modo manual, simplemente saltamos fuera del span actual
+    const nodo = range.commonAncestorContainer;
+    const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
+    const yaTiene = spanPadre.closest("[style*='bold'], b, strong");
+
+    const normalSpan = document.createElement("span");
+    normalSpan.style.fontWeight = "none";
+    normalSpan.innerHTML = "&#xFEFF;";
+    
+    if (yaTiene) {
+      const rangeAfter = document.createRange();
+      rangeAfter.setStart(range.startContainer, range.startOffset);
+      rangeAfter.setEndAfter(yaTiene);
+      
+      const contentAfter = rangeAfter.extractContents();
+      yaTiene.after(normalSpan);
+      
+      const textLimpio = contentAfter.textContent.replace(/\uFEFF/g, '');
+      if (textLimpio.length > 0) {
+          const newBold = document.createElement("span");
+          newBold.style.fontWeight = "bold";
+          newBold.appendChild(contentAfter);
+          normalSpan.after(newBold);
+      }
+    } else {
+      range.insertNode(normalSpan);
+    }
+    
+    range.setStart(normalSpan.firstChild, 1);
+    range.collapse(true);
+    
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  // Reset de estados
+  boldBtn.classList.remove("active");
+  boldManual = false;
+  activeSpanBold = null;
+}
+
+// Estados globales Italic
 let activeSpanItalic = null;
 let italicManual = false;
+
+// Evento
 italicBtn.addEventListener("click", () => setItalic());
 
 function setItalic() {
@@ -379,76 +404,38 @@ function setItalic() {
 
   const range = selection.getRangeAt(0);
 
+  //Si hay texto seleccionado, aplicamos o quitamos la cursiva solo a ese texto, sin afectar el modo manual ni otras partes del texto.
   if (!selection.isCollapsed) {
     const nodo = range.commonAncestorContainer;
     const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
+    
+    // Verificamos si ya está en cursiva
     const yaTiene = spanPadre.closest("[style*='italic'], i, em");
 
     if (yaTiene) {
-      const texto = document.createTextNode(yaTiene.innerHTML);
-      const spanHTML = document.createElement("span");
-      spanHTML.innerHTML = texto.textContent;
-      yaTiene.parentNode.replaceChild(spanHTML, yaTiene);
-
-      italicBtn.classList.remove("active");
-      activeSpanItalic = null;
-      italicManual = false;
+      // Si ya tiene, usamos nuestra función de quitar
+      quitItalic();
     } else {
+      // Si no tiene, aplicamos el nuevo span
       const span = document.createElement("span");
       span.style.fontStyle = "italic";
-      const contenido = range.extractContents();
-      span.appendChild(contenido);
+      
+      // Usamos extractContents para mover el contenido al span
+      span.appendChild(range.extractContents());
       range.insertNode(span);
-      activeSpanItalic = span;
+      
       italicBtn.classList.add("active");
-      italicManual = false;
-
-      // Mantenemos la selección limpia como en underline
-      selection.removeAllRanges();
     }
 
-    activeSpanItalic = null;
-  } else {
+    selection.removeAllRanges();
+  } 
+  
+  // CASO B: Si no hay texto seleccionado, el botón de subrayado actúa como un toggle para un "modo escritura cursiva".
+  else {
     if (italicBtn.classList.contains("active")) {
-      italicManual = false;
-      italicBtn.classList.remove("active");
-
-      const r = selection.getRangeAt(0);
-      const nodo = r.commonAncestorContainer;
-      const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
-      const yaTiene = spanPadre.closest("[style*='italic'], i, em");
-
-      const normalSpan = document.createElement("span");
-      normalSpan.style.fontStyle = "normal";
-      normalSpan.innerHTML = "&#xFEFF;";
-      
-      if (yaTiene) {
-        const rangeAfter = document.createRange();
-        rangeAfter.setStart(r.startContainer, r.startOffset);
-        rangeAfter.setEndAfter(yaTiene);
-        
-        const contentAfter = rangeAfter.extractContents();
-        yaTiene.after(normalSpan);
-        
-        const textLimpio = contentAfter.textContent.replace(/\uFEFF/g, '');
-        if (textLimpio.length > 0) {
-            const newItalic = document.createElement("span");
-            newItalic.style.fontStyle = "italic";
-            newItalic.appendChild(contentAfter);
-            normalSpan.after(newItalic);
-        }
-      } else {
-        r.insertNode(normalSpan);
-      }
-      
-      r.setStart(normalSpan.firstChild, 1);
-      r.collapse(true);
-      
-      selection.removeAllRanges();
-      selection.addRange(r);
-      
-      activeSpanItalic = null;
+      quitItalic(); // Apagamos el modo manual
     } else {
+      // Activamos modo manual
       italicManual = true;
       italicBtn.classList.add("active");
 
@@ -456,18 +443,77 @@ function setItalic() {
       activeSpanItalic.style.fontStyle = "italic";
       activeSpanItalic.innerHTML = "&#xFEFF;"; // Carácter invisible para que el span no colapse
 
-      const r = selection.getRangeAt(0);
-      r.insertNode(activeSpanItalic);
-      r.setStart(activeSpanItalic.firstChild, 1); // Ponemos el cursor dentro del span
-      r.collapse(true);
-
+      range.insertNode(activeSpanItalic);
+      range.setStart(activeSpanItalic.firstChild, 1); // Ponemos el cursor dentro del span
+      range.collapse(true);
       selection.removeAllRanges();
-      selection.addRange(r);
+      selection.addRange(range);
     }
   }
 }
 
-// Estados globales
+function quitItalic() {
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+
+  const range = selection.getRangeAt(0);
+  
+  if (!selection.isCollapsed) {
+    // Si hay selección, buscamos el ancestro para "desenvolverlo"
+    const nodo = range.commonAncestorContainer;
+    const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
+    const yaTiene = spanPadre.closest("[style*='italic'], i, em");
+
+    if (yaTiene) {
+      // Reemplazamos el span por su propio contenido de texto sin formato
+      const texto = document.createTextNode(yaTiene.innerHTML);
+      const spanHTML = document.createElement("span");
+      spanHTML.innerHTML = texto.textContent;
+      yaTiene.parentNode.replaceChild(spanHTML, yaTiene);
+    }
+  } else {
+    // Si es modo manual, simplemente saltamos fuera del span actual
+    const nodo = range.commonAncestorContainer;
+    const spanPadre = nodo.nodeType === 3 ? nodo.parentElement : nodo;
+    const yaTiene = spanPadre.closest("[style*='italic'], i, em");
+
+    const normalSpan = document.createElement("span");
+    normalSpan.style.fontStyle = "none";
+    normalSpan.innerHTML = "&#xFEFF;";
+    
+    if (yaTiene) {
+      const rangeAfter = document.createRange();
+      rangeAfter.setStart(range.startContainer, range.startOffset);
+      rangeAfter.setEndAfter(yaTiene);
+      
+      const contentAfter = rangeAfter.extractContents();
+      yaTiene.after(normalSpan);
+      
+      const textLimpio = contentAfter.textContent.replace(/\uFEFF/g, '');
+      if (textLimpio.length > 0) {
+          const newItalic = document.createElement("span");
+          newItalic.style.fontStyle = "italic";
+          newItalic.appendChild(contentAfter);
+          normalSpan.after(newItalic);
+      }
+    } else {
+      range.insertNode(normalSpan);
+    }
+    
+    range.setStart(normalSpan.firstChild, 1);
+    range.collapse(true);
+    
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  // Reset de estados
+  italicBtn.classList.remove("active");
+  italicManual = false;
+  activeSpanItalic = null;
+}
+
+// Estados globales Underline
 let activeSpanUnderline = null;
 let underlineManual = false;
 
