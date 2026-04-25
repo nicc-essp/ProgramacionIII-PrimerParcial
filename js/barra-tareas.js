@@ -11,6 +11,8 @@ let offsetY = 0;
 let isVertical = false;
 
 // Posición inicial (centrado real)
+// getBoundingClientRect() retorna un objeto con las coordenadas de la barra de tareas
+// en defaultPos guardo los datos de la posicion en sus ejes x e y, ya que los demas datos son innecesarios
 const defaultRect = contenedor.getBoundingClientRect();
 const defaultPos = {
   x: defaultRect.left,  // left real del contenedor, no el centro de pantalla
@@ -23,9 +25,9 @@ const TOLERANCEY = 30;
 
 // Posición Actual
 let pos = { x: defaultPos.x, y: defaultPos.y };
-
+// evento que escucha al icono de arrastre y evita que el navegador ejecute su comportamiento por defecto, el cual causa bugs 
 handle.addEventListener("dragstart", (e) => e.preventDefault());
-
+// evento que escucha el click sobre el icono de arrastre
 handle.addEventListener("pointerdown", (e) => {
   isDragging = true;
 
@@ -38,7 +40,7 @@ handle.addEventListener("pointerdown", (e) => {
 
   offsetX = e.clientX - rect.left;
   offsetY = e.clientY - rect.top;
-
+  // Esto es para asegurarnos de que el elemento siga recibiendo eventos del puntero incluso si el cursor se mueve rápidamente y sale del área del elemento.
   handle.setPointerCapture(e.pointerId);
 });
 
