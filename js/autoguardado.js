@@ -1,5 +1,4 @@
-//guardo los elementos de la hoja
-let htmlR = document.documentElement; // raíz
+//guardo los elementos del html
 let Titulohtml = document.querySelector(".editor-titulo"); //Titulo
 let Parrafohtml = document.querySelector(".editor-parrafo"); //Parrafo
 
@@ -25,7 +24,6 @@ function cargarDatos() {
     localStorage.setItem("cPalabra", cPalabrahtml.textContent);
     localStorage.setItem("cCaracteres", cCaractereshtml.textContent);
 
-    asignarValores();
 }
 
 function asignarValores() {
@@ -47,6 +45,6 @@ function asignarValores() {
     cCaractereshtml.textContent = cCaracteres;
 }
 
-//No supe que comentar acá
+//Se activa cuando el usuario usa ek input
 Titulohtml.oninput = cargarDatos;
 Parrafohtml.oninput = cargarDatos;
