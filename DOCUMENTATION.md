@@ -76,14 +76,7 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 
 ### Fase 3: Almacenamiento 🟡 En Progreso
 #### T9: Implementar Local Storage para la función de Auto-guardado (evita pérdida de datos al refrescar). 🟡
-### Fase 3: Almacenamiento 🟡 En Progreso
-#### T9: Implementar Local Storage para la función de Auto-guardado (evita pérdida de datos al refrescar). 🟡
 
-### Fase 4: UI/UX y Pulido Final (La Piel) 🟡 En Progreso
-#### T10: Diseño responsivo: asegurar compatibilidad con tablets y móviles. 🟡
-#### T11: Implementar Modo Oscuro y Modo Cuidado Visual (Variables/Clases CSS). ✅
-#### T12: Pulido final de UI: transiciones, efectos hover y scrollbars minimalistas.
-#### T13: Actualización final de documentación (README & DOCUMENTATION).
 ### Fase 4: UI/UX y Pulido Final (La Piel) 🟡 En Progreso
 #### T10: Diseño responsivo: asegurar compatibilidad con tablets y móviles. 🟡
 #### T11: Implementar Modo Oscuro y Modo Cuidado Visual (Variables/Clases CSS). ✅
