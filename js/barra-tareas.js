@@ -48,7 +48,7 @@ document.addEventListener("pointermove", (e) => {
   // Si no inicio pointerdown (se clickeo el icono de arrastre), no se ejecuta el resto del codigo
   if (!isDragging) return;
 
-  // Calculo la posicion de la barra (click del usuario - distancia al borde izquierdo/superior de la barra)
+  // Calculo la posicion de la barra (click del usuario(desde izquierda/arriba al click) - distancia al borde izquierdo/superior de la barra(desde izquierda/arriba al click))
   let newX = e.clientX - offsetX;
   let newY = e.clientY - offsetY;
 
