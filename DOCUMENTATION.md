@@ -15,14 +15,14 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 
 | Funcionalidad | Prioridad   | Estado |
 |---------------|-------------|--------|
-| Diseño con Flexbox | Obligatorio | En Desarrollo 🟡 |
+| Diseño con Flexbox | Obligatorio | Listo 🟢 |
 | Barra de herramientas basica(Fuente, Tamaño, Negrita, Cursiva, <mark>Alineación: izquierda, centro, derecha</mark>) | Obligatorio | En desarrollo 🟡 |
 | Area de texto | Obligatorio | Listo 🟢 |
-| Diseño Responsivo | Alta | Pendiente 🔴 |
-| Autoguardado local | Alta | Pendiente 🔴 |
+| Diseño Responsivo | Alta | En Desarrollo🟡 |
 | Modo Oscuro | Media | Listo 🟢 |
 | Modo Cuidado Visual | Media | Listo 🟢 |
 | Contador de palabras  | Baja | Listo 🟢 |
+| Autoguardado local | Baja| Pendiente 🔴 |
 
 ## 4. Arquitectura y estructura de carpetas
     ProgramacionIII-PrimerParcial/  
@@ -68,15 +68,22 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 #### T3: Implementar layout base con Flexbox (Header, Canvas, Footer). ✅
 #### T4: Diseñar el área principal de escritura con CSS puro. ✅
 
-### Fase 2: Lógica y Formato de Texto (El Músculo) - En Progreso 🟡
+### Fase 2: Lógica y Formato de Texto (El Músculo) - ✅
 #### T5: Implementar listeners en JavaScript para selección de texto. ✅
 #### T6: Lógica para Negrita, Cursiva y Subrayado (Obligatoria). ✅
-#### T7: Lógica de alineación de texto (Izquierda, Centro, Derecha). 🟡
+#### T7: Lógica de alineación de texto (Izquierda, Centro, Derecha). ✅
 #### T8: Contador de palabras en tiempo real en el footer. ✅
 
 ### Fase 3: Almacenamiento 🟡 En Progreso
 #### T9: Implementar Local Storage para la función de Auto-guardado (evita pérdida de datos al refrescar). 🟡
+### Fase 3: Almacenamiento 🟡 En Progreso
+#### T9: Implementar Local Storage para la función de Auto-guardado (evita pérdida de datos al refrescar). 🟡
 
+### Fase 4: UI/UX y Pulido Final (La Piel) 🟡 En Progreso
+#### T10: Diseño responsivo: asegurar compatibilidad con tablets y móviles. 🟡
+#### T11: Implementar Modo Oscuro y Modo Cuidado Visual (Variables/Clases CSS). ✅
+#### T12: Pulido final de UI: transiciones, efectos hover y scrollbars minimalistas.
+#### T13: Actualización final de documentación (README & DOCUMENTATION).
 ### Fase 4: UI/UX y Pulido Final (La Piel) 🟡 En Progreso
 #### T10: Diseño responsivo: asegurar compatibilidad con tablets y móviles. 🟡
 #### T11: Implementar Modo Oscuro y Modo Cuidado Visual (Variables/Clases CSS). ✅
