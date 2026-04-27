@@ -20,7 +20,7 @@
   }
 
   .dark-mode img {
-    content: url("./assets/img/logo-completo-blanco.png");
+    content: url("../assets/img/logo-completo-blanco.png");
   }
 
   .dark-mode #funciones-estilos i {
