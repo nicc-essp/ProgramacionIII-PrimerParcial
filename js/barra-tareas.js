@@ -731,188 +731,125 @@ document.addEventListener("selectionchange", () => {
 
 // FIN FUNCION APLICAR ESTILOS
 
+// FIX: mantener estilos activos al escribir o borrar
+let sizeManual = false;
+let activeSize = null;
+
+function obtenerElementoActual(range) {
+  const nodo = range.startContainer;
+  return nodo.nodeType === Node.TEXT_NODE ? nodo.parentElement : nodo;
+}
+
+function cursorTieneEstilosActivos(elemento) {
+  if (!elemento) return false;
+
+  if (boldManual && !elemento.closest("[style*='bold'], b, strong")) return false;
+  if (italicManual && !elemento.closest("[style*='italic'], i, em")) return false;
+  if (underlineManual && !elemento.closest("[style*='underline'], u")) return false;
+  if (sizeManual && activeSize && !elemento.closest(`span[style*='font-size: ${activeSize}']`)) return false;
+
+  return true;
+}
+
+function crearSpanConEstilosActivos() {
+  const span = document.createElement("span");
+
+  if (boldManual) span.style.fontWeight = "bold";
+  if (italicManual) span.style.fontStyle = "italic";
+  if (underlineManual) span.style.textDecoration = "underline";
+  if (sizeManual && activeSize) span.style.fontSize = activeSize;
+
+  span.innerHTML = "\uFEFF";
+  return span;
+}
+
+function asegurarEstilosActivos() {
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+
+  const range = selection.getRangeAt(0);
+  if (!selection.isCollapsed) return;
+
+  if (!boldManual && !italicManual && !underlineManual && !sizeManual) return;
+
+  const elementoActual = obtenerElementoActual(range);
+
+  if (cursorTieneEstilosActivos(elementoActual)) return;
+
+  const span = crearSpanConEstilosActivos();
+
+  range.insertNode(span);
+  range.setStart(span.firstChild, 1);
+  range.collapse(true);
+
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+editorTitulo.addEventListener("beforeinput", asegurarEstilosActivos);
+editorTitulo.addEventListener("input", asegurarEstilosActivos);
+
+editorParrafo.addEventListener("beforeinput", asegurarEstilosActivos);
+editorParrafo.addEventListener("input", asegurarEstilosActivos);
+// FIN FIX mantener estilos activos
+
 // FUNCION TAMAÑOS TEXTOS
 const botones = document.querySelectorAll("#selector-tamaño i");
 
+// Evito que se pierda la selección como en bold/italic
+botones.forEach(btn => {
+  btn.addEventListener("mousedown", (e) => e.preventDefault());
+});
 
 botones.forEach(btn => {
   btn.addEventListener("click", () => {
-    
     // sacar active de todos
     botones.forEach(b => b.classList.remove("active"));
 
     // agregar al clickeado
     btn.classList.add("active");
+
+    // Obtengo el tamaño desde data-size (si existe) o desde el CSS como fallback
+    const size = btn.dataset.size || window.getComputedStyle(btn).fontSize;
+    activeSize = size;
+    sizeManual = true;
+
+    aplicarTamañoTexto(size);
   });
 });
-// FIN FUNCION TAMAÑOS TEXTOS
 
-// FUNCION COLOR TEXTOS
-const picker = document.getElementById("selector-color");
-const texto = document.getElementById("color-actual");
-let activeSpanColor = null;
-let colorManual = false;
-let savedRange = null;
-
-// Escuchamos 'pointerdown' (que ocurre antes del clic normal).
-// Esto sirve para guardar DÓNDE estaba el cursor parpadeando ANTES de que
-// se abra el menú de colores y el editor pierda el foco por completo.
-picker.addEventListener("pointerdown", () => {
+// Funcion que aplica el tamaño al texto
+function aplicarTamañoTexto(size) {
   const seleccion = window.getSelection();
-  if (seleccion.rangeCount > 0) {
-    savedRange = seleccion.getRangeAt(0).cloneRange();
-  }
-});
-
-picker.addEventListener("input", () => {
-  texto.style.color = picker.value;
-  texto.textContent = picker.value;
-  texto.textContent = texto.textContent.toUpperCase();
-
-  setColorFont();
-
-  if (document.body.classList.contains("dark-mode")) {
-    if (esColorOscuro(picker.value)) {
-      texto.style.color = "#ffffff"
-    }
-  } else {
-    if (esColorClaro(picker.value)) {
-      texto.style.color = "#000000"
-    }
-  }
-});
-
-// Evento 'change' ocurre cuando el usuario confirma el color y cierra la paleta.
-picker.addEventListener("change", () => {
-  if (savedRange) {
-    // Buscamos el editor de texto basándonos en dónde estaba el cursor antes.
-    const node = savedRange.commonAncestorContainer;
-    let editor = null;
-    
-    // nodeType === Node.TEXT_NODE (3) significa que es texto puro, por ende buscamos en su elemento "padre"
-    // Node.ELEMENT_NODE (1) significa que es una etiqueta HTML (ej: un span, un div)
-    if (node.nodeType === Node.TEXT_NODE) {
-      editor = node.parentElement.closest('[contenteditable="true"]');
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
-      editor = node.closest('[contenteditable="true"]');
-    }
-
-    // Le devolvemos el "foco" al editor automáticamente para evitar que el usuario 
-    // tenga que hacer clic y mover accidentalmente el cursor fuera del <span> que acabamos de crear.
-    if (editor) {
-      editor.focus();
-    }
-    
-    // Restauramos el cursor exactamente a la posición donde lo dejamos.
-    const seleccion = window.getSelection();
-    seleccion.removeAllRanges();
-    seleccion.addRange(savedRange);
-  }
-});
-
-//Comprobacion Color Claro
-function esColorClaro(hex) {
-  const r = parseInt(hex.substr(1, 2), 16);
-  const g = parseInt(hex.substr(3, 2), 16);
-  const b = parseInt(hex.substr(5, 2), 16);
-
-  // fórmula de luminancia
-  const luminancia = (0.299 * r + 0.587 * g + 0.114 * b);
-
-  return luminancia > 186; // Umbral
-}
-// Fin Comprobacion Color Claro
-
-//Comprobacion Color Oscuro
-function esColorOscuro(hex) {
-  const r = parseInt(hex.substr(1, 2), 16);
-  const g = parseInt(hex.substr(3, 2), 16);
-  const b = parseInt(hex.substr(5, 2), 16);
-
-  return r < 100 && g < 100 && b < 100;
-}
-//Fin Comprobacion Color Oscuro
-// FIN FUNCION COLOR TEXTOS
-
-// Funcion que cambia el color de la fuente
-function setColorFont(){
-  // Obtengo el texto seleccionado con el mouse
-  let seleccion = window.getSelection();
-
-  // Si no hay rango seleccionado, intentamos recuperar el que guardamos en 'pointerdown'
-  if (!seleccion.rangeCount && savedRange) {
-    seleccion.removeAllRanges();
-    seleccion.addRange(savedRange);
-  }
-
-  // Si no hay texto seleccionado, salgo de la función
   if (!seleccion.rangeCount) return;
-  // 
-  const rango = seleccion.getRangeAt(0);
-  const color = picker.value; // Obtiene el color del picker
- 
-  if (!seleccion.isCollapsed) {
-    // Hay texto seleccionado.
-    // Si ya le habíamos puesto color y el usuario sigue arrastrando el selector, 
-    // simplemente le cambiamos el color al mismo span para no crear spans duplicados.
-    if (activeSpanColor && (rango.commonAncestorContainer === activeSpanColor || rango.commonAncestorContainer.parentElement === activeSpanColor)) {
-      activeSpanColor.style.color = color;
-      return;
-    }
 
-    // Creamos el span que envolverá al texto seleccionado.
+  const rango = seleccion.getRangeAt(0);
+
+  if (!seleccion.isCollapsed) {
+    // TEXTO SELECCIONADO
     const span = document.createElement("span");
-    span.style.color = color;
+    span.style.fontSize = size;
+
     const contenido = rango.extractContents();
     span.appendChild(contenido);
     rango.insertNode(span);
-    
-    // Volvemos a seleccionar el span recién creado para que si el usuario sigue arrastrando el color,
-    // el código se dé cuenta de que seguimos editando el mismo pedazo de texto.
+
     seleccion.removeAllRanges();
-    const newRange = document.createRange();
-    newRange.selectNodeContents(span);
-    seleccion.addRange(newRange);
-    
-    activeSpanColor = span;
-  }else {
-    // Sin texto seleccionado - modo escritura (cursor parpadeando)
-    
-    // Verificamos si el cursor sigue adentro del span vacío que creamos.
-    const isCursorInsideActiveSpan = activeSpanColor && (
-      rango.startContainer === activeSpanColor ||
-      rango.startContainer.parentElement === activeSpanColor ||
-      rango.startContainer.parentNode === activeSpanColor
-    );
+  } else {
+    // MODO ESCRITURA
+    const span = document.createElement("span");
+    span.style.fontSize = size;
+    span.innerHTML = '\u200B';
 
-    // Si ya creamos un span vacío con el "espacio invisible" y el cursor sigue ahí, 
-    // solo le actualizamos el color en vez de crear otro span.
-    if (isCursorInsideActiveSpan && activeSpanColor.innerHTML === '\u200B') {
-      activeSpanColor.style.color = color;
-      return;
-    }
-
-    // Creamos un span nuevo
-    activeSpanColor = document.createElement("span");
-    activeSpanColor.style.color = color;
-    // '\u200B' es un "Zero-width space" (espacio de ancho nulo).
-    // Es un truco muy común: los navegadores ignoran los spans 100% vacíos cuando tipeás,
-    // pero si ponemos este caracter invisible, obligamos al navegador a mantener el cursor adentro.
-    activeSpanColor.innerHTML = '\u200B';
-
-    rango.insertNode(activeSpanColor);
-    // Ponemos el cursor justo después del caracter invisible (en la posición 1 del text node)
-    rango.setStart(activeSpanColor.firstChild, 1);
+    rango.insertNode(span);
+    rango.setStart(span.firstChild, 1);
     rango.collapse(true);
 
-    // Limpiamos y aplicamos esta nueva posición del cursor
     seleccion.removeAllRanges();
     seleccion.addRange(rango);
-
-    // Actualizamos nuestro rango guardado por si cierra el color picker ahora mismo
-    savedRange = rango.cloneRange();
   }
 }
+// FIN FUNCION TAMAÑOS TEXTOS
  
 // OCULTAR BARRA
 const zonaOcultar = document.getElementById("zona-ocultar-barra");
@@ -987,3 +924,18 @@ logo.addEventListener("click", () => {
 
 });
 // FIN MOSTRAR BARRA
+
+// RESET RESPONSIVE A DESKTOP
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 768) {
+    contenedor.classList.remove("vertical");
+    isVertical = false;
+
+    contenedor.style.left = "50%";
+    contenedor.style.top = "";
+    contenedor.style.transform = "translateX(-50%)";
+
+    resetBtn.classList.remove("show");
+  }
+});
+// FIN RESET RESPONSIVE A DESKTOP

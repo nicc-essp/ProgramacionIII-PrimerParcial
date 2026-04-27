@@ -101,4 +101,92 @@
   }
   /* Fin Hojas Duplicadas */
 
+  /* ========================= */
+/* Responsive Hojas */
+/* ========================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+
+  /* Reducimos espacio vertical general */
+  .espacio-hojas {
+    padding-top: 70px;
+    padding-bottom: 40px;
+    gap: 24px;
+  }
+
+  /* La hoja sigue teniendo límite de altura para que funcione el paginado */
+  .hoja {
+    width: 88%;
+    height: 80vh;
+    max-height: 80vh;
+    overflow: hidden;
+  }
+}
+
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .espacio-hojas {
+    padding-top: 60px;
+    padding-bottom: 30px;
+    gap: 20px;
+  }
+
+  /*  no usar height: auto */
+  .hoja {
+    width: 94%;
+    height: 75vh;
+    max-height: 75vh;
+    overflow: hidden;
+  }
+
+  .espacio-contador {
+    height: 32px;
+    min-height: 32px;
+  }
+
+  .contador-hoja,
+  .contador-palabras,
+  .contador-caracteres {
+    font-size: 12px;
+  }
+}
+
+
+/* Mobile chico */
+@media (max-width: 480px) {
+
+  .espacio-hojas {
+    padding-top: 50px;
+    padding-bottom: 24px;
+    gap: 16px;
+  }
+
+  /* Ajuste fino para pantallas chicas */
+  .hoja {
+    width: 96%;
+    height: 70vh;
+    max-height: 70vh;
+    overflow: hidden;
+  }
+
+  .contenido-contador {
+    margin-right: 8px;
+  }
+
+  .contador-hoja {
+    padding-left: 8px;
+  }
+
+  .contador-palabras {
+    padding-right: 6px;
+  }
+
+  .contador-caracteres {
+    padding-left: 4px;
+  }
+}
+
   /* FIN HOJAS */

@@ -1,31 +1,41 @@
 // FUNCION DARK MODE
- const darkModeBtn = document.getElementById("icon-mode");
- darkModeBtn.addEventListener("click", toggleDarkMode);
+const darkModeBtn = document.getElementById("icon-mode");
 
-  function toggleDarkMode() {
-    var element = document.body;
-      element.classList.toggle("dark-mode");
+darkModeBtn.addEventListener("click", toggleDarkMode);
+
+function toggleDarkMode() {
+  if (document.body.classList.contains("dark-mode")) {
+    document.body.classList.remove("dark-mode");
+    darkModeBtn.classList.remove("active");
+  } else {
+    overlay.style.display = "none";
+    nocturneModeBtn.classList.remove("active");
+
+    document.body.classList.add("dark-mode");
+    darkModeBtn.classList.add("active");
+  }
 }
 // FIN FUNCION DARK MODE
+
 
 // FUNCION LUZ NOCTURNA
 const overlay = document.getElementById("nightOverlay");
 const nocturneModeBtn = document.getElementById("icon-glass");
 
 nocturneModeBtn.addEventListener("click", () => {
-  //Cambiar Modo
   toggleNightMode();
-
-  //Verificar Modo Activo
-  if (nocturneModeBtn.classList.contains("active")) {
-    nocturneModeBtn.classList.remove("active");
-  } else {
-    nocturneModeBtn.classList.add("active");
-  }
 });
 
-
 function toggleNightMode() {
-  overlay.style.display = overlay.style.display === "none" ? "block" : "none";
+  if (overlay.style.display !== "none") {
+    overlay.style.display = "none";
+    nocturneModeBtn.classList.remove("active");
+  } else {
+    document.body.classList.remove("dark-mode");
+    darkModeBtn.classList.remove("active");
+
+    overlay.style.display = "block";
+    nocturneModeBtn.classList.add("active");
+  }
 }
 // FIN FUNCION LUZ NOCTURNA

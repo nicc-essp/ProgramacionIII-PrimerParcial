@@ -18,7 +18,7 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 | Diseño con Flexbox | Obligatorio | Listo 🟢 |
 | Barra de herramientas basica(Fuente, Tamaño, Negrita, Cursiva, <mark>Alineación: izquierda, centro, derecha</mark>) | Obligatorio | En desarrollo 🟡 |
 | Area de texto | Obligatorio | Listo 🟢 |
-| Diseño Responsivo | Alta | En Desarrollo🟡 |
+| Diseño Responsivo | Alta | Listo🟢 |
 | Modo Oscuro | Media | Listo 🟢 |
 | Modo Cuidado Visual | Media | Listo 🟢 |
 | Contador de palabras  | Baja | Listo 🟢 |
@@ -78,7 +78,7 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 #### T9: Implementar Local Storage para la función de Auto-guardado (evita pérdida de datos al refrescar). 🟡
 
 ### Fase 4: UI/UX y Pulido Final (La Piel) 🟡 En Progreso
-#### T10: Diseño responsivo: asegurar compatibilidad con tablets y móviles. 🟡
+#### T10: Diseño responsivo: asegurar compatibilidad con tablets y móviles. ✅
 #### T11: Implementar Modo Oscuro y Modo Cuidado Visual (Variables/Clases CSS). ✅
 #### T12: Pulido final de UI: transiciones, efectos hover y scrollbars minimalistas.
 #### T13: Actualización final de documentación (README & DOCUMENTATION).
