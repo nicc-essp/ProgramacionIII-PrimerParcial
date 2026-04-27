@@ -4,11 +4,16 @@ const darkModeBtn = document.getElementById("icon-mode");
 darkModeBtn.addEventListener("click", toggleDarkMode);
 
 function toggleDarkMode() {
-  // Alternar modo oscuro global
-  document.body.classList.toggle("dark-mode");
+  if (document.body.classList.contains("dark-mode")) {
+    document.body.classList.remove("dark-mode");
+    darkModeBtn.classList.remove("active");
+  } else {
+    overlay.style.display = "none";
+    nocturneModeBtn.classList.remove("active");
 
-  //  mantener estado visual (como hover)
-  darkModeBtn.classList.toggle("active");
+    document.body.classList.add("dark-mode");
+    darkModeBtn.classList.add("active");
+  }
 }
 // FIN FUNCION DARK MODE
 
@@ -18,15 +23,19 @@ const overlay = document.getElementById("nightOverlay");
 const nocturneModeBtn = document.getElementById("icon-glass");
 
 nocturneModeBtn.addEventListener("click", () => {
-  // Cambiar modo
   toggleNightMode();
-
-  // Este también mantiene estado visual
-  nocturneModeBtn.classList.toggle("active");
 });
 
 function toggleNightMode() {
-  overlay.style.display =
-    overlay.style.display === "none" ? "block" : "none";
+  if (overlay.style.display !== "none") {
+    overlay.style.display = "none";
+    nocturneModeBtn.classList.remove("active");
+  } else {
+    document.body.classList.remove("dark-mode");
+    darkModeBtn.classList.remove("active");
+
+    overlay.style.display = "block";
+    nocturneModeBtn.classList.add("active");
+  }
 }
 // FIN FUNCION LUZ NOCTURNA
