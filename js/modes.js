@@ -8,9 +8,6 @@ function toggleDarkMode() {
     document.body.classList.remove("dark-mode");
     darkModeBtn.classList.remove("active");
   } else {
-    overlay.style.display = "none";
-    nocturneModeBtn.classList.remove("active");
-
     document.body.classList.add("dark-mode");
     darkModeBtn.classList.add("active");
   }
@@ -31,9 +28,6 @@ function toggleNightMode() {
     overlay.style.display = "none";
     nocturneModeBtn.classList.remove("active");
   } else {
-    document.body.classList.remove("dark-mode");
-    darkModeBtn.classList.remove("active");
-
     overlay.style.display = "block";
     nocturneModeBtn.classList.add("active");
   }
