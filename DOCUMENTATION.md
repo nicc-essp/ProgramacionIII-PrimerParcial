@@ -18,7 +18,7 @@ Logica de Programación: Javascript (Manipulacion del DOM & API de Archivos)
 | Diseño con Flexbox | Obligatorio | Listo 🟢 |
 | Barra de herramientas basica(Fuente, Tamaño, Negrita, Cursiva, <mark>Alineación: izquierda, centro, derecha</mark>) | Obligatorio | En desarrollo 🟡 |
 | Area de texto | Obligatorio | Listo 🟢 |
-| Diseño Responsivo | Alta | En Desarrollo🟡 |
+| Diseño Responsivo | Alta | En Desarrollo🟢 |
 | Modo Oscuro | Media | Listo 🟢 |
 | Modo Cuidado Visual | Media | Listo 🟢 |
 | Contador de palabras  | Baja | Listo 🟢 |
