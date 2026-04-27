@@ -37,7 +37,7 @@ handle.addEventListener("pointerdown", (e) => {
   contenedor.style.left = `${rect.left}px`;
   contenedor.style.top = `${rect.top}px`;
   contenedor.style.transform = "none";
-
+  // Calculo la distancia entre el click del usuario y el borde izquierdo/superior de la barra
   offsetX = e.clientX - rect.left;
   offsetY = e.clientY - rect.top;
   // Esto es para asegurarnos de que el elemento siga recibiendo eventos del puntero incluso si el cursor se mueve rápidamente y sale del área del elemento.
@@ -45,8 +45,10 @@ handle.addEventListener("pointerdown", (e) => {
 });
 
 document.addEventListener("pointermove", (e) => {
+  // Si no inicio pointerdown (se clickeo el icono de arrastre), no se ejecuta el resto del codigo
   if (!isDragging) return;
 
+  // Calculo la posicion de la barra (click del usuario(desde izquierda/arriba al click) - distancia al borde izquierdo/superior de la barra(desde izquierda/arriba al click))
   let newX = e.clientX - offsetX;
   let newY = e.clientY - offsetY;
 
