@@ -1,4 +1,8 @@
+// Espero a que cargue el DOM para evitar errores si otro JS carga antes
+document.addEventListener("DOMContentLoaded", () => {
+
 // TITULO
+// Uso querySelector SOLO para la primera hoja
 const editorTitulo = document.querySelector(".editor-titulo");
 
 editorTitulo.addEventListener("input", () => {
@@ -61,7 +65,6 @@ document.querySelector(".espacio-hojas").addEventListener("paste", (e) => {
   const textoPegado = (e.clipboardData || window.clipboardData).getData("text");
   const hojaActual = editor.closest(".hoja");
 
-  // Insertá de a poco hasta que desborde, luego saltá a la siguiente hoja
   let hojaRef = hojaActual;
   let editorRef = editor;
   let i = 0;
@@ -82,6 +85,10 @@ document.querySelector(".espacio-hojas").addEventListener("paste", (e) => {
 
       editorRef = siguienteHoja.querySelector(".editor-parrafo");
       editorRef.focus();
+
+      // Aseguro que el cursor esté al final
+      moverCursorAlFinal(editorRef);
+
       hojaRef = siguienteHoja;
     } else {
       i++;
@@ -94,12 +101,11 @@ document.querySelector(".espacio-hojas").addEventListener("paste", (e) => {
 
 // CONTADOR CARACTERES
 function contarCaracteres(texto) {
-  if (texto.innerText.replace(/\n$/, "").length > 1 || texto.innerText.replace(/\n$/, "").length == 0) {
-    return texto.innerText.replace(/\n$/, "").length + " " + "Caracteres";
-  } else {
-    return texto.innerText.replace(/\n$/, "").length + " " + "Caracter";
-  }
-  
+  // Quito saltos de línea finales y TODOS los espacios en blanco
+  const limpio = texto.innerText.replace(/\n$/, "").replace(/\s+/g, "");
+
+  // Devuelvo solo la cantidad de caracteres reales (sin espacios)
+  return limpio.length;
 }
 // FIN CONTADOR CARACTERES
 
@@ -107,48 +113,39 @@ function contarCaracteres(texto) {
 function contarPalabras(texto) {
   const contenido = texto.innerText.trim();
 
-  if (contenido === "") return 0 + " " + "Palabras";
+  if (contenido === "") return 0;
 
-  if (contenido.split(/\s+/).length > 1 || contenido.split(/\s+/).length == 0) {
-    return contenido.split(/\s+/).length  + " " + "Palabras";
-  } else {
-    return contenido.split(/\s+/).length  + " " + "Palabra";
-  }
-  
+  return contenido.split(/\s+/).length;
 }
 // FIN CONTADOR PALABRAS
-
-// CONTADOR
-const palabrasSpan = document.querySelector(".contador-palabras");
-const caracteresSpan = document.querySelector(".contador-caracteres");
-
-editorParrafo.addEventListener("input", () => {
-  palabrasSpan.textContent = contarPalabras(editorParrafo);
-  caracteresSpan.textContent = contarCaracteres(editorParrafo);
-});
-// FIN CONTADOR
 
 // CREAR HOJAS
 const hoja = document.querySelector(".hoja");
 
 function agregarHoja() {
   const hojas = document.querySelectorAll(".hoja");
+  // Clonar la hoja base
   const nuevaHoja = hoja.cloneNode(true);
 
   const titulo = nuevaHoja.querySelector(".editor-titulo");
   titulo.innerHTML = "";
   titulo.style.display = "none";
 
+  // Limpiar contenido de la nueva hoja para que no copie texto
   nuevaHoja.querySelector(".editor-parrafo").innerHTML = "";
   nuevaHoja.querySelector(".contador-hoja").textContent = `Hoja N.º${hojas.length + 1}`;
-  nuevaHoja.querySelector(".contador-palabras").textContent = "0";
-  nuevaHoja.querySelector(".contador-caracteres").textContent = "0";
+  nuevaHoja.querySelector(".contador-palabras").textContent = "0 Palabras";
+  nuevaHoja.querySelector(".contador-caracteres").textContent = "0 Caracteres";
 
   nuevaHoja.style.gridTemplateRows = "auto 1fr";
 
   hoja.parentNode.appendChild(nuevaHoja);
 
-  nuevaHoja.querySelector(".editor-parrafo").focus();
+  const nuevoEditor = nuevaHoja.querySelector(".editor-parrafo");
+  nuevoEditor.focus();
+
+  // Cursor al inicio (como hoja nueva vacía)
+  moverCursorAlFinal(nuevoEditor);
 }
 
 // Eliminar Hoja
@@ -180,10 +177,14 @@ document.querySelector(".espacio-hojas").addEventListener("input", (e) => {
   if (!editor) return;
 
   const hojaActual = editor.closest(".hoja");
+  // Ahora caracteres es un número real
   const caracteres = contarCaracteres(editor);
 
-  hojaActual.querySelector(".contador-palabras").textContent = contarPalabras(editor);
-  hojaActual.querySelector(".contador-caracteres").textContent = caracteres;
+  // Armo el texto para mostrar (UI separada de lógica)
+  const palabras = contarPalabras(editor);
+
+  hojaActual.querySelector(".contador-palabras").textContent = palabras + " Palabras";
+  hojaActual.querySelector(".contador-caracteres").textContent = caracteres + " Caracteres";
 
   const todasLasHojas = document.querySelectorAll(".hoja");
   const esUltimaHoja = hojaActual === todasLasHojas[todasLasHojas.length - 1];
@@ -193,8 +194,11 @@ document.querySelector(".espacio-hojas").addEventListener("input", (e) => {
     agregarHoja();
   }
 
-  if (caracteres == 0 && esUltimaHoja) {
+  // Ahora sí funciona porque caracteres es número
+  if (caracteres === 0 && esUltimaHoja) {
     eliminarHoja(hojaActual);
   }
 });
 // FIN CREAR HOJAS
+
+}); // Cierro DOMContentLoaded
