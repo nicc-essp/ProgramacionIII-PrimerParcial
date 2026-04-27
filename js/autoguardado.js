@@ -1,3 +1,5 @@
+console.log("EL SCRIPT CARGÓ");
+
 //guardo los elementos del html 
 let Titulohtml = document.querySelector(".editor-titulo"); //Titulo
 let Parrafohtml = document.querySelector(".editor-parrafo"); //Parrafo
@@ -44,6 +46,19 @@ function asignarValores() {
     cCaractereshtml.textContent = cCaracteres;
 }
 
-//Se activa cuando el usuario usa ek input
-Titulohtml.oninput = cargarDatos;
-Parrafohtml.oninput = cargarDatos;
+// 1. Mantenemos el 'input' tradicional para el tipeo normal del teclado
+Titulohtml.addEventListener("input", cargarDatos);
+Parrafohtml.addEventListener("input", cargarDatos);
+
+// 2. Creamos un "Observador" que detectará cuando barra-tareas.js modifique el DOM
+const observador = new MutationObserver(() => {
+    cargarDatos();
+});
+
+// 3. Le decimos qué tiene que vigilar: 
+// childList (nuevos nodos como spans), attributes (cambios de style/alineación), characterData (texto), subtree (todo lo que pase adentro)
+const configuracion = { childList: true, attributes: true, characterData: true, subtree: true };
+
+// 4. Ponemos a vigilar al título y al párrafo
+observador.observe(Titulohtml, configuracion);
+observador.observe(Parrafohtml, configuracion);
