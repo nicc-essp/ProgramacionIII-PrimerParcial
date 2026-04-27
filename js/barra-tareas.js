@@ -860,3 +860,18 @@ logo.addEventListener("click", () => {
 
 });
 // FIN MOSTRAR BARRA
+
+// RESET RESPONSIVE A DESKTOP
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 768) {
+    contenedor.classList.remove("vertical");
+    isVertical = false;
+
+    contenedor.style.left = "50%";
+    contenedor.style.top = "";
+    contenedor.style.transform = "translateX(-50%)";
+
+    resetBtn.classList.remove("show");
+  }
+});
+// FIN RESET RESPONSIVE A DESKTOP
