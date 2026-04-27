@@ -425,4 +425,119 @@
 }
 /* Fin Mostrar Barra */
 
+/* ========================= */
+/*  Responsive Barra Tareas   */
+/* ========================= */
+
+@media (max-width: 1024px) {
+  #funciones {
+    max-width: calc(100vw - 32px);
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 10px;
+    column-gap: 8px;
+    padding: 10px 12px;
+  }
+
+  #funciones-estilos,
+  #selector-tamaño,
+  #selector-alineacion {
+    padding-left: 12px;
+    padding-right: 12px;
+    gap: 14px;
+  }
+
+  #underline-icon,
+  #size3 {
+    padding-right: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .barra-funciones {
+    padding-top: 25px;
+  }
+
+  #funciones {
+    top: 70px;
+    left: 50%;
+    max-width: calc(100vw - 20px);
+    min-height: auto;
+    padding: 8px 10px;
+    border-radius: 8px;
+    flex-wrap: wrap;
+  }
+
+  #funciones-estilos,
+  #selector-tamaño,
+  #selector-alineacion {
+    gap: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  #funciones-estilos i,
+  #selector-alineacion i {
+    font-size: 16px;
+  }
+
+  #size1 {
+    font-size: 9px;
+  }
+
+  #size2 {
+    font-size: 15px;
+  }
+
+  #size3 {
+    font-size: 20px;
+    padding-right: 8px;
+  }
+
+  #divider::after {
+    height: 24px;
+  }
+
+  #icon-move-barra {
+    display: none;
+  }
+
+  #zona-ocultar-barra {
+    height: 70px;
+  }
+
+  #txt-ocultar,
+  #icon-ocultar {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  #funciones {
+    width: calc(100vw - 20px);
+    justify-content: center;
+  }
+
+  #funciones-estilos,
+  #selector-tamaño,
+  #selector-alineacion {
+    gap: 8px;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  #funciones-estilos i,
+  #selector-alineacion i {
+    font-size: 15px;
+  }
+
+  #selector-tamaño {
+    gap: 8px;
+  }
+
+  #divider::after {
+    height: 20px;
+  }
+}
+
  /* FIN BARRA DE TAREAS*/

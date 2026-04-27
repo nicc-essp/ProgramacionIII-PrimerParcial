@@ -51,7 +51,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 /* Fin Iconos */
 
@@ -100,9 +100,98 @@
 }
 /* Fin Hover */
 
-/* Activo */
+
+/* ========================= */
+/* Activos */
+/* ========================= */
+
+/* Modo lectura activo */
 #icon-glass.active {
   color: #FFD43A;
 }
-/* Fin Derecha */
+
+/* Modo oscuro activo (simula hover permanente) */
+#icon-mode.active {
+  opacity: 0;
+}
+
+#icon-mode.active + #icon-mode-hover {
+  opacity: 1;
+}
+
+
+/* ========================= */
+/* Header Responsive */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+  .header {
+    grid-template-columns: 1fr auto;
+    height: 60px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  /* sacamos posicionamiento absoluto del centro solo aca */
+  #header-centro {
+    position: static;
+    transform: none;
+    justify-self: center;
+  }
+
+  #logo-header {
+    height: 30px;
+  }
+
+  /* mantenemos relative para que los iconos sigan bien posicionados */
+  #header-derecho {
+    position: relative;
+    width: 80px;
+    height: 30px;
+  }
+
+  /* no tocamos position de los iconos */
+  #header-derecho i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+  }
+
+  /* Ajustamos posiciones para mobile */
+  #icon-mode,
+  #icon-mode-hover {
+    left: 45px;
+  }
+}
+
+
+/* Evitar hover pegado en pantallas tactiles */
+@media (hover: none) {
+
+  #icon-glass:hover,
+  #icon-mode:hover {
+    opacity: 1;
+  }
+
+  #icon-glass:hover + #icon-glass-hover,
+  #icon-mode:hover + #icon-mode-hover {
+    opacity: 0;
+  }
+
+  /* Mantener estado activo en mobile */
+  #icon-glass.active {
+    color: #FFD43A;
+  }
+
+  #icon-mode.active {
+    opacity: 0;
+  }
+
+  #icon-mode.active + #icon-mode-hover {
+    opacity: 1;
+  }
+}
+
 /* FIN HEADER */
