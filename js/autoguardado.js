@@ -1,4 +1,4 @@
-//guardo los elementos del html
+//guardo los elementos del html 
 let Titulohtml = document.querySelector(".editor-titulo"); //Titulo
 let Parrafohtml = document.querySelector(".editor-parrafo"); //Parrafo
 
@@ -16,8 +16,8 @@ if (localStorage.getItem("Titulo") === null) {
 
 function cargarDatos() {
     //Traigo y cargo los valores en el localStorage
-    localStorage.setItem("Titulo", Titulohtml.textContent);
-    localStorage.setItem("Parrafo", Parrafohtml.textContent);
+    localStorage.setItem("Titulo", Titulohtml.innerHTML);
+    localStorage.setItem("Parrafo", Parrafohtml.innerHTML);
 
     //Contador
     localStorage.setItem("cHoja", cHojahtml.textContent);
@@ -36,8 +36,8 @@ function asignarValores() {
     let cCaracteres = localStorage.getItem("cCaracteres");
 
     //Cargo los valores del localStorage al html
-    Titulohtml.textContent = titulo;
-    Parrafohtml.textContent = parrafo;
+    Titulohtml.innerHTML = titulo;
+    Parrafohtml.innerHTML = parrafo;
 
     cHojahtml.textContent = cHoja;
     cPalabrahtml.textContent = cPalabra;
