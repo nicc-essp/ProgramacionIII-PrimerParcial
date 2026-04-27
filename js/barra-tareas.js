@@ -786,6 +786,9 @@ function asegurarEstilosActivos() {
   selection.addRange(range);
 }
 
+editorTitulo.addEventListener("beforeinput", asegurarEstilosActivos);
+editorTitulo.addEventListener("input", asegurarEstilosActivos);
+
 editorParrafo.addEventListener("beforeinput", asegurarEstilosActivos);
 editorParrafo.addEventListener("input", asegurarEstilosActivos);
 // FIN FIX mantener estilos activos
