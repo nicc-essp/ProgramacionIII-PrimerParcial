@@ -731,6 +731,65 @@ document.addEventListener("selectionchange", () => {
 
 // FIN FUNCION APLICAR ESTILOS
 
+// FIX: mantener estilos activos al escribir o borrar
+let sizeManual = false;
+let activeSize = null;
+
+function obtenerElementoActual(range) {
+  const nodo = range.startContainer;
+  return nodo.nodeType === Node.TEXT_NODE ? nodo.parentElement : nodo;
+}
+
+function cursorTieneEstilosActivos(elemento) {
+  if (!elemento) return false;
+
+  if (boldManual && !elemento.closest("[style*='bold'], b, strong")) return false;
+  if (italicManual && !elemento.closest("[style*='italic'], i, em")) return false;
+  if (underlineManual && !elemento.closest("[style*='underline'], u")) return false;
+  if (sizeManual && activeSize && !elemento.closest(`span[style*='font-size: ${activeSize}']`)) return false;
+
+  return true;
+}
+
+function crearSpanConEstilosActivos() {
+  const span = document.createElement("span");
+
+  if (boldManual) span.style.fontWeight = "bold";
+  if (italicManual) span.style.fontStyle = "italic";
+  if (underlineManual) span.style.textDecoration = "underline";
+  if (sizeManual && activeSize) span.style.fontSize = activeSize;
+
+  span.innerHTML = "\uFEFF";
+  return span;
+}
+
+function asegurarEstilosActivos() {
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+
+  const range = selection.getRangeAt(0);
+  if (!selection.isCollapsed) return;
+
+  if (!boldManual && !italicManual && !underlineManual && !sizeManual) return;
+
+  const elementoActual = obtenerElementoActual(range);
+
+  if (cursorTieneEstilosActivos(elementoActual)) return;
+
+  const span = crearSpanConEstilosActivos();
+
+  range.insertNode(span);
+  range.setStart(span.firstChild, 1);
+  range.collapse(true);
+
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+editorParrafo.addEventListener("beforeinput", asegurarEstilosActivos);
+editorParrafo.addEventListener("input", asegurarEstilosActivos);
+// FIN FIX mantener estilos activos
+
 // FUNCION TAMAÑOS TEXTOS
 const botones = document.querySelectorAll("#selector-tamaño i");
 
@@ -749,6 +808,8 @@ botones.forEach(btn => {
 
     // Obtengo el tamaño desde data-size (si existe) o desde el CSS como fallback
     const size = btn.dataset.size || window.getComputedStyle(btn).fontSize;
+    activeSize = size;
+    sizeManual = true;
 
     aplicarTamañoTexto(size);
   });

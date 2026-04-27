@@ -134,7 +134,7 @@
     gap: 20px;
   }
 
-  /* 🔴 CLAVE: NO usar height: auto */
+  /*  no usar height: auto */
   .hoja {
     width: 94%;
     height: 75vh;
