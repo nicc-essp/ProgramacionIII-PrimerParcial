@@ -8,7 +8,7 @@ let cPalabrahtml = document.querySelector(".contador-palabras");
 let cCaractereshtml = document.querySelector(".contador-caracteres");
 
 //Si no hay datos guardados, los guardo por primera vez
-if (!localStorage.getItem("Titulo")) {
+if (localStorage.getItem("Titulo") === null) {
     cargarDatos();
 } else {
     asignarValores();
@@ -23,7 +23,6 @@ function cargarDatos() {
     localStorage.setItem("cHoja", cHojahtml.textContent);
     localStorage.setItem("cPalabra", cPalabrahtml.textContent);
     localStorage.setItem("cCaracteres", cCaractereshtml.textContent);
-
 }
 
 function asignarValores() {
