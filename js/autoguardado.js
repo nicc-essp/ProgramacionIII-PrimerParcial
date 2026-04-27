@@ -8,11 +8,11 @@ let cPalabrahtml = document.querySelector(".contador-palabras");
 let cCaractereshtml = document.querySelector(".contador-caracteres");
 
 //Si no hay datos guardados, los guardo por primera vez
-if (!localStorage.getItem("Titulo")) {
+if (!localStorage.getItem("Parrafo") && !localStorage.getItem("Titulo") ){
     cargarDatos();
-} else {
-    asignarValores();
-}
+}   else{
+        asignarValores();
+    }
 
 function cargarDatos() {
     //Traigo y cargo los valores en el localStorage
